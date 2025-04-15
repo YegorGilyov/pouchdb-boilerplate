@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { App } from 'antd';
 import { usePouchDB } from '../../shared/contexts/PouchDBProvider';
-import { CategoryDocument, UseCategoriesReturn } from '../../shared/types';
+import { CategoryDocument, TodoDocument, UseCategoriesReturn } from '../../shared/types';
 
 export function useCategories(): UseCategoriesReturn {
   const [categories, setCategories] = useState<CategoryDocument[]>([]);
@@ -147,8 +147,35 @@ export function useCategories(): UseCategoriesReturn {
   // Delete a category
   const deleteCategory = async (category: CategoryDocument): Promise<void> => {
     try {
+      // Check if any todos use this category
+      const associatedTodos = await dbOperations.find<TodoDocument>(
+        {
+          type: 'todo',
+          createdAt: { $gte: null },
+          categoryIds: { $elemMatch: { $eq: category._id } }
+        },
+        [ { type: 'desc' }, { createdAt: 'desc' } ],
+        'idx-type-createdAt-categoryIds'
+      );
+      
+      if (associatedTodos.length > 0) {
+        // Remove the category from all associated todos
+        const updatePromises = associatedTodos.map(todo => {
+          const updatedTodo = {
+            ...todo,
+            categoryIds: todo.categoryIds.filter(id => id !== category._id),
+            updatedAt: new Date().toISOString()
+          };
+          return dbOperations.update<TodoDocument>(updatedTodo);
+        });
+        
+        await Promise.all(updatePromises);
+        console.log(`Removed category from ${associatedTodos.length} todos`);
+      }
+
+      // Now delete the category
       await dbOperations.remove(category);
-      message.success('Category deleted successfully');
+      message.success(`Category deleted successfully${associatedTodos.length > 0 ? ` and removed from ${associatedTodos.length} todos` : ''}`);
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       console.error('Failed to delete category', error);
