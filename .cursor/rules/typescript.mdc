@@ -1,0 +1,59 @@
+---
+description: 
+globs: *.tsx, *.ts
+alwaysApply: false
+---
+# Rules: TypeScript Best Practices
+
+## Type System
+- Use TypeScript for all code
+- Prefer interfaces over types for object definitions
+- Use types for unions, intersections, and mapped types
+- Avoid enums; use maps instead
+- Utilize TypeScript's strict mode
+- Enforce strict typing and avoid 'any' type (prefer 'unknown' when necessary)
+- Use generics to create reusable components and functions
+- Prefix interfaces for React props with 'Props' (e.g., ButtonProps)
+- Utilize TypeScript's features to ensure type safety
+
+## Naming Conventions
+- Use PascalCase for component names and types/interfaces
+- Use camelCase for variables and functions
+- Use UPPER_CASE for constants
+- Use lowercase with dashes for directories (e.g., components/auth-wizard)
+- Favor named exports for components
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
+
+## Code Structure
+- Write concise, technical TypeScript code with accurate examples
+- Use functional and declarative programming patterns; avoid classes
+- Prefer iteration and modularization over code duplication
+- Use the "function" keyword for pure functions
+- Use curly braces for all conditionals for consistency and clarity
+- Structure files appropriately based on their purpose
+
+## Performance and Error Handling
+- Use immutable data structures
+- Use efficient data structures and algorithms
+- Create custom error types for domain-specific errors
+- Use try-catch blocks with typed catch clauses
+- Handle Promise rejections properly
+- Handle async errors appropriately
+- Log errors appropriately
+- Handle edge cases gracefully
+- Use efficient data structures and algorithms
+
+## TypeScript Project Organization
+- Place shared types in a `types` directory
+- Use barrel exports (index.ts) for organizing exports
+- Keep related code together
+- Encapsulate implementation details
+
+## Clean Code Principles
+- Use named constants instead of magic numbers
+- Names should reveal intent and purpose
+- Use comments to explain complex logic or non-obvious decisions
+- Follow single responsibility principle: each function should do exactly one thing
+- Follow DRY (Don't Repeat Yourself) principle
+- Refactor continuously
+- Write tests before fixing bugs

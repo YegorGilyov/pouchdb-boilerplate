@@ -1,0 +1,33 @@
+---
+description: Using Ant Design Messages
+globs: 
+alwaysApply: false
+---
+# Rules: Ant Design Messages
+
+- Use `App.useApp().message` for notifications (import `App` from 'antd')
+- Wrap the entire application with `AntApp` component (import as `App as AntApp` from 'antd')
+- Wrap the entire application with Ant Design’s `ConfigProvider`
+- Example:
+  ```tsx
+  // In your main App component:
+  import { App as AntApp, ConfigProvider } from 'antd';
+  
+  function App() {
+    return (
+      <ConfigProvider>
+        <AntApp>
+        {/* Your app content */}
+        </AntApp>
+      </ConfigProvider>
+    );
+  }
+
+  // In your components or custom hooks:
+  import { App } from 'antd';
+  
+  function MyComponent() {
+    const { message } = App.useApp();
+    // Use message.success(), message.error(), etc.
+  }
+  ```

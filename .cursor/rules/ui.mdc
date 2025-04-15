@@ -1,0 +1,23 @@
+---
+description: 
+globs: src/components/**/*.tsx, src/pages/**/*.tsx, src/layouts/**/*.tsx
+alwaysApply: false
+---
+# Rules: UI Design Best Practices
+
+- Use Ant Design for UI components
+- Implement appropriate loading and error states
+- Ensure all user input is properly validated
+- Implement appropriate fallback UI
+- Provide helpful empty states
+- Display loading indicators only during user-initiated actions that require waiting:
+  * Initial page/content loading
+  * User-triggered filter application
+  * Form submissions
+  * Explicit data refresh requests
+- Do not display loading indicators during:
+  * Automatic background data refreshes
+  * Silent data synchronization after changes
+- Use component-specific loading indicators instead of full-page loaders to maintain UI responsiveness during data loading
+- Ensure UI stability: components should maintain the same size/dimensions during loading states and empty states
+- Implement a consistent notification strategy - mutation hooks are supposed to provide toast message feedback for all operations, not UI components

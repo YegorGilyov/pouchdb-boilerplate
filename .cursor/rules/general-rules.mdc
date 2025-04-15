@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Rules: General
+
+## Development Workflow
+- Focus on code areas relevant to the task
+- Do not modify code unrelated to the task
+
+## Code Structure and Quality
+- Keep the codebase clean and organized
+- Write code that is up-to-date, bug-free, fully functional, secure, and efficient
+- Prioritize readability over performance when there's a trade-off
+- Avoid having files over 200-300 lines of code; refactor at that point
+- Avoid writing scripts in files if possible, especially one-time scripts
+- Always prefer simple solutions
+- Avoid duplication of code by checking for existing similar functionality
+
+## Change Management
+- Always look for existing code to iterate on instead of creating new code
+- Do not drastically change patterns before trying to iterate on existing ones
+- When fixing issues, exhaust all options within existing implementation before introducing new patterns
+- If introducing a new pattern becomes necessary, remove the old implementation to avoid duplicate logic
+- Avoid making major architectural changes to working features unless explicitly instructed
+- Always consider what other code areas might be affected by changes
+- Make only requested changes or changes you're confident are well understood
+
+## Environment and Testing
+- Write code that accounts for different environments: dev, test, and prod
+- Use mocking data only for tests, never for dev or prod
+- Never add stubbing or fake data patterns to code affecting dev or prod environments
+- Write thorough tests for all major functionality
+- Never overwrite .env files without first asking and confirming
+
+## Code Preservation
+- Do not remove existing code unless necessary
+- Preserve comments and commented-out code
+- Only change code formatting when essential for new functionality
+- Make no whitespace-only changes
+- No additions beyond what's explicitly requested
+
+## Communication
+- Reference file names in responses
+- Be concise and minimize unnecessary prose
+- Express uncertainty when appropriate rather than guessing
+- Follow user requirements carefully and to the letter
+- Fully implement all requested functionality
+- Always provide real file links, not placeholder links

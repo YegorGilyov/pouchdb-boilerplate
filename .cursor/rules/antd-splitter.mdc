@@ -1,0 +1,19 @@
+---
+description: Using Ant Design Splitter
+globs: 
+alwaysApply: false
+---
+# Rules: Ant Design Splitter
+
+- Import Ant Design `Splitter` directly from the `antd` package
+- Ant Design `Splitter` code example:
+  ```tsx
+  <Splitter style={{ height: '100%' }}>
+    <Splitter.Panel defaultSize="25%" min="20%" max="70%">
+      <CategoriesFilter />
+    </Splitter.Panel>
+    <Splitter.Panel>
+      <TodoList />
+    </Splitter.Panel>
+  </Splitter>
+  ```

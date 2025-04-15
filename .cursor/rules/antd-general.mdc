@@ -1,0 +1,20 @@
+---
+description: 
+globs: src/components/**/*.tsx, src/pages/**/*.tsx, src/layouts/**/*.tsx,src/App.tsx
+alwaysApply: false
+---
+# Rules: Ant Design Best Practices
+
+- Always use the latest API patterns, especially:
+  - For Tabs: Use the `items` prop instead of TabPane children
+  - For Menu: Use the `items` prop instead of Menu.Item children
+  - For Table: Use the `columns` prop configuration for all features
+  - For Form: Use Form.useForm() instead of wrapping with Form.create()
+  - For Card: Use variant='borderless' instead of bordered={false}
+  - Use Space.Compact instead of Input.Group
+- Explicitly avoid legacy/deprecated patterns:
+  - NO: <Tabs><TabPane>...</TabPane></Tabs>
+  - YES: <Tabs items={[{key: '1', label: 'Tab 1', children: <>...</>}]} />
+- For components with child nesting patterns, always prefer the items-based configuration approach
+- Follow Ant Design v5+ best practices for component composition
+- Reference the current Ant Design documentation and the migration guide (v5+) for any component you implement

@@ -1,0 +1,26 @@
+/* Ant Design will handle most of the styling */
+/* Just override some basic styles */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+}
+
+/* Allow for scrolling properly */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Fix Ant Design Table width issues */
+.ant-table-cell {
+  word-break: break-word;
+}
+
+/* Make checkboxes a bit easier to click */
+.ant-checkbox-wrapper {
+  padding: 4px;
+}
