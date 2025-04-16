@@ -1,274 +1,212 @@
-import React, { useState } from 'react';
-import { List, Button, Modal, Input, Divider, Typography } from 'antd';
-import { 
-  FolderOutlined, 
-  InboxOutlined, 
-  AppstoreOutlined, 
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined
-} from '@ant-design/icons';
+import { useState } from 'react';
+import { Menu, Button, Modal, Input, Form } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useCategories } from '../hooks/useCategories';
-import { useTodos } from '../hooks/useTodos';
 import { CategoryDocument } from '../../shared/types';
-
-const { Text } = Typography;
 
 interface CategoriesFilterProps {
   selectedCategory: string;
   onCategorySelect: (categoryId: string) => void;
 }
 
-// Define the item type for type safety
-type CategoryListItem = {
-  key: string;
-  icon: React.ReactNode;
-  name: string;
-  count: number;
-  isStandard: boolean;
-  category?: CategoryDocument;
-};
-
 export function CategoriesFilter({ 
   selectedCategory, 
   onCategorySelect 
 }: CategoriesFilterProps): React.ReactElement {
-  const { categories, loading: categoriesLoading, createCategory, updateCategory, deleteCategory } = useCategories();
-  const { todos } = useTodos();
+  const { categories, loading, createCategory, updateCategory, deleteCategory } = useCategories();
 
-  // Modal states
+  // Modal state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState('');
-  const [selectedCategoryForAction, setSelectedCategoryForAction] = useState<CategoryDocument | null>(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [currentCategory, setCurrentCategory] = useState<CategoryDocument | null>(null);
+  const [form] = Form.useForm();
 
-  // Count todos for each category
-  const getCategoryCount = (categoryId: string) => {
-    if (categoryId === 'all') {
-      return todos.length;
-    } else if (categoryId === 'uncategorized') {
-      return todos.filter(todo => todo.categoryIds.length === 0).length;
-    } else {
-      return todos.filter(todo => todo.categoryIds.includes(categoryId)).length;
-    }
-  };
-
-  // Handle opening create category modal
-  const handleCreateCategory = () => {
-    setCategoryName('');
-    setErrorMessage('');
+  // Create category handlers
+  const showCreateModal = () => {
+    form.resetFields();
     setIsCreateModalOpen(true);
   };
 
-  // Handle opening edit category modal
-  const handleEditCategory = (category: CategoryDocument) => {
-    setSelectedCategoryForAction(category);
-    setCategoryName(category.name);
-    setErrorMessage('');
+  const handleCreateCategory = async (values: { name: string }) => {
+    try {
+      await createCategory(values.name);
+      setIsCreateModalOpen(false);
+      form.resetFields();
+    } catch (error) {
+      // Error handling is done in the hook
+    }
+  };
+
+  // Edit category handlers
+  const showEditModal = (category: CategoryDocument) => {
+    setCurrentCategory(category);
+    form.setFieldsValue({ name: category.name });
     setIsEditModalOpen(true);
   };
 
-  // Handle opening delete category modal
-  const handleDeleteCategory = (category: CategoryDocument) => {
-    setSelectedCategoryForAction(category);
-    setIsDeleteModalOpen(true);
-  };
-
-  // Handle create category submission
-  const handleCreateSubmit = async () => {
-    try {
-      setErrorMessage('');
-      await createCategory(categoryName);
-      setIsCreateModalOpen(false);
-      setCategoryName('');
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
-    }
-  };
-
-  // Handle edit category submission
-  const handleEditSubmit = async () => {
-    if (!selectedCategoryForAction) return;
+  const handleUpdateCategory = async (values: { name: string }) => {
+    if (!currentCategory) return;
     
     try {
-      setErrorMessage('');
-      await updateCategory(selectedCategoryForAction, categoryName);
+      await updateCategory(currentCategory, values.name);
       setIsEditModalOpen(false);
-      setCategoryName('');
-      setSelectedCategoryForAction(null);
+      setCurrentCategory(null);
+      form.resetFields();
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
+      // Error handling is done in the hook
     }
   };
 
-  // Handle delete category submission
-  const handleDeleteSubmit = async () => {
-    if (!selectedCategoryForAction) return;
-    
+  // Delete category handler
+  const handleDeleteCategory = async (category: CategoryDocument) => {
     try {
-      await deleteCategory(selectedCategoryForAction);
-      setIsDeleteModalOpen(false);
-      setSelectedCategoryForAction(null);
-      
-      // If the deleted category was selected, switch to 'all'
-      if (selectedCategory === selectedCategoryForAction._id) {
-        onCategorySelect('all');
-      }
+      await deleteCategory(category);
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
+      // Error handling is done in the hook
     }
   };
 
-  // Prepare the list data - start with standard items
-  const listData: CategoryListItem[] = [
+  const menuItems = [
     {
       key: 'all',
-      icon: <AppstoreOutlined />,
-      name: 'All',
-      count: getCategoryCount('all'),
-      isStandard: true
+      label: (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>All</span>
+        </div>
+      ),
     },
     {
       key: 'uncategorized',
-      icon: <InboxOutlined />,
-      name: 'Uncategorized',
-      count: getCategoryCount('uncategorized'),
-      isStandard: true
+      label: (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Uncategorized</span>
+        </div>
+      ),
     },
-    // Add user categories
     ...categories.map(category => ({
       key: category._id,
-      icon: <FolderOutlined />,
-      name: category.name,
-      count: getCategoryCount(category._id),
-      isStandard: false,
-      category
+      label: (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>{category.name}</span>
+          <div>
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                showEditModal(category);
+              }}
+            />
+            <Button
+              type="text"
+              icon={<DeleteOutlined />}
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteCategory(category);
+              }}
+            />
+          </div>
+        </div>
+      ),
     }))
   ];
 
   return (
-    <>
-      {categoriesLoading && (
-        <div style={{ padding: 16, textAlign: 'center' }}>Loading categories...</div>
-      )}
-      
-      <div style={{ padding: '16px 16px 8px' }}>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          onClick={handleCreateCategory}
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '16px', borderBottom: '1px solid #f0f0f0' }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={showCreateModal}
           block
         >
-          New Category
+          Add Category
         </Button>
       </div>
-      
-      <Divider style={{ margin: '0 0 8px 0' }} />
-      
-      <List
-        size="small"
-        style={{ height: 'calc(100% - 65px)', overflow: 'auto' }}
-        dataSource={listData}
-        renderItem={(item: CategoryListItem) => (
-          <List.Item 
-            key={item.key}
-            style={{ 
-              padding: '8px 16px',
-              cursor: 'pointer',
-              backgroundColor: selectedCategory === item.key ? '#e6f7ff' : 'transparent',
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-            onClick={() => onCategorySelect(item.key)}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {item.icon}
-              <Text style={{ marginLeft: 8 }}>
-                {item.name} ({item.count})
-              </Text>
-            </div>
-            
-            {!item.isStandard && item.category && (
-              <div onClick={(e) => e.stopPropagation()}>
-                <Button 
-                  type="text" 
-                  size="small" 
-                  icon={<EditOutlined />} 
-                  onClick={() => handleEditCategory(item.category!)}
-                  style={{ marginRight: 4 }}
-                />
-                <Button 
-                  type="text" 
-                  size="small" 
-                  icon={<DeleteOutlined />} 
-                  onClick={() => handleDeleteCategory(item.category!)}
-                  danger
-                />
-              </div>
-            )}
-          </List.Item>
-        )}
+      <Menu
+        mode="inline"
+        selectedKeys={selectedCategory ? [selectedCategory] : []}
+        onSelect={({ selectedKeys }) => onCategorySelect(selectedKeys[0])}
+        style={{ flex: 1, overflow: 'auto' }}
+        items={menuItems}
       />
 
       {/* Create Category Modal */}
       <Modal
-        title="Create New Category"
+        title="Create Category"
         open={isCreateModalOpen}
-        onOk={handleCreateSubmit}
         onCancel={() => setIsCreateModalOpen(false)}
-        okText="Create"
-        cancelText="Cancel"
+        footer={null}
       >
-        <Input
-          placeholder="Category name"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-          onPressEnter={handleCreateSubmit}
-          autoFocus
-        />
-        {errorMessage && <div style={{ color: 'red', marginTop: 8 }}>{errorMessage}</div>}
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleCreateCategory}
+        >
+          <Form.Item
+            name="name"
+            label="Category Name"
+            rules={[
+              { required: true, message: 'Please enter a category name' },
+              { min: 2, message: 'Category name must be at least 2 characters' }
+            ]}
+          >
+            <Input placeholder="Enter category name" autoFocus />
+          </Form.Item>
+          <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+            <Button onClick={() => setIsCreateModalOpen(false)} style={{ marginRight: 8 }}>
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Create
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
 
       {/* Edit Category Modal */}
       <Modal
         title="Edit Category"
         open={isEditModalOpen}
-        onOk={handleEditSubmit}
-        onCancel={() => setIsEditModalOpen(false)}
-        okText="Save"
-        cancelText="Cancel"
+        onCancel={() => {
+          setIsEditModalOpen(false);
+          setCurrentCategory(null);
+        }}
+        footer={null}
       >
-        <Input
-          placeholder="Category name"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-          onPressEnter={handleEditSubmit}
-          autoFocus
-        />
-        {errorMessage && <div style={{ color: 'red', marginTop: 8 }}>{errorMessage}</div>}
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleUpdateCategory}
+        >
+          <Form.Item
+            name="name"
+            label="Category Name"
+            rules={[
+              { required: true, message: 'Please enter a category name' },
+              { min: 2, message: 'Category name must be at least 2 characters' }
+            ]}
+          >
+            <Input placeholder="Enter category name" autoFocus />
+          </Form.Item>
+          <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+            <Button 
+              onClick={() => {
+                setIsEditModalOpen(false);
+                setCurrentCategory(null);
+              }} 
+              style={{ marginRight: 8 }}
+            >
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Update
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
-
-      {/* Delete Category Modal */}
-      <Modal
-        title="Delete Category"
-        open={isDeleteModalOpen}
-        onOk={handleDeleteSubmit}
-        onCancel={() => setIsDeleteModalOpen(false)}
-        okText="Delete"
-        cancelText="Cancel"
-        okButtonProps={{ danger: true }}
-      >
-        <p>Are you sure you want to delete the category "{selectedCategoryForAction?.name}"?</p>
-        <p>This action cannot be undone.</p>
-      </Modal>
-    </>
+    </div>
   );
 } 

@@ -154,7 +154,7 @@ export function useCategories(): UseCategoriesReturn {
           createdAt: { $gte: null },
           categoryIds: { $elemMatch: { $eq: category._id } }
         },
-        [ { type: 'desc' }, { createdAt: 'desc' } ],
+        [ { type: 'desc' }, { createdAt: 'desc' } ], // NEED TO FIX THIS
         'idx-type-createdAt-categoryIds'
       );
       
