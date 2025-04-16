@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Menu, Button, Modal, Input, Form } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useCategories } from '../hooks/useCategories';
+import { useTodos } from '../hooks/useTodos';
 import { CategoryDocument } from '../../shared/types';
 
 interface CategoriesFilterProps {
@@ -14,6 +15,21 @@ export function CategoriesFilter({
   onCategorySelect 
 }: CategoriesFilterProps): React.ReactElement {
   const { categories, loading, createCategory, updateCategory, deleteCategory } = useCategories();
+  const { todos } = useTodos();
+
+  // Calculate todo counts for each category
+  const getTodosCount = (categoryId: string | null) => {
+    if (categoryId === null) {
+      // Count uncategorized todos
+      return todos.filter(todo => todo.categoryIds.length === 0).length;
+    } else if (categoryId === 'all') {
+      // Count all todos
+      return todos.length;
+    } else {
+      // Count todos in a specific category
+      return todos.filter(todo => todo.categoryIds.includes(categoryId)).length;
+    }
+  };
 
   // Modal state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -71,7 +87,7 @@ export function CategoriesFilter({
       key: 'all',
       label: (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>All</span>
+          <span>All ({getTodosCount('all')})</span>
         </div>
       ),
     },
@@ -79,7 +95,7 @@ export function CategoriesFilter({
       key: 'uncategorized',
       label: (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>Uncategorized</span>
+          <span>Uncategorized ({getTodosCount(null)})</span>
         </div>
       ),
     },
@@ -87,7 +103,7 @@ export function CategoriesFilter({
       key: category._id,
       label: (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>{category.name}</span>
+          <span>{category.name} ({getTodosCount(category._id)})</span>
           <div>
             <Button
               type="text"
@@ -117,7 +133,6 @@ export function CategoriesFilter({
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '16px', borderBottom: '1px solid #f0f0f0' }}>
         <Button
-          type="primary"
           icon={<PlusOutlined />}
           onClick={showCreateModal}
           block

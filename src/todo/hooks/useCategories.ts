@@ -153,9 +153,7 @@ export function useCategories(): UseCategoriesReturn {
           type: 'todo',
           createdAt: { $gte: null },
           categoryIds: { $elemMatch: { $eq: category._id } }
-        },
-        [ { type: 'desc' }, { createdAt: 'desc' } ], // NEED TO FIX THIS
-        'idx-type-createdAt-categoryIds'
+        }
       );
       
       if (associatedTodos.length > 0) {

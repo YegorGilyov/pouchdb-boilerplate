@@ -76,15 +76,19 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
         setLoading(true);
         setError(null);
 
-        const indexToUse = useIndex ? 
-          [`_design/${useIndex}`, useIndex] as [string, string] : 
-          undefined;
+        const findOptions: PouchDB.Find.FindRequest<AppDocument> = {
+          selector
+        };
 
-        const result = await db.find({
-          selector,
-          sort,
-          use_index: indexToUse
-        });
+        if (sort && sort.length > 0) {
+          findOptions.sort = sort;
+        }
+
+        if (useIndex) {
+          findOptions.use_index = [`_design/${useIndex}`, useIndex] as [string, string];
+        }
+
+        const result = await db.find(findOptions);
 
         return result.docs as T[];
       } catch (err) {

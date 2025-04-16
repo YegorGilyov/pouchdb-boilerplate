@@ -39,12 +39,6 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
       onClick: () => navigate('/todos')
     },
     {
-      key: 'categories',
-      icon: <TagsOutlined />,
-      label: 'Categories',
-      onClick: () => navigate('/todos/categories')
-    },
-    {
       key: 'db-admin',
       icon: <DatabaseOutlined />,
       label: 'DB',
