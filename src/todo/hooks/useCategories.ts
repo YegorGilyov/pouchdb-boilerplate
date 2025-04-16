@@ -151,7 +151,6 @@ export function useCategories(): UseCategoriesReturn {
       const associatedTodos = await dbOperations.find<TodoDocument>(
         {
           type: 'todo',
-          createdAt: { $gte: null },
           categoryIds: { $elemMatch: { $eq: category._id } }
         }
       );
@@ -168,7 +167,6 @@ export function useCategories(): UseCategoriesReturn {
         });
         
         await Promise.all(updatePromises);
-        console.log(`Removed category from ${associatedTodos.length} todos`);
       }
 
       // Now delete the category

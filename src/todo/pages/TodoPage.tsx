@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Splitter } from 'antd';
+import { Divider, Splitter } from 'antd';
 import { TodoForm } from '../components/TodoForm';
 import { TodoList } from '../components/TodoList';
 import { CategoriesFilter } from '../components/CategoriesFilter';
@@ -12,12 +12,18 @@ export function TodoPage(): React.ReactElement {
   };
 
   return (
-    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
-      <div style={{ marginBottom: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
+      <div style={{ margin: 24  }}>
         <TodoForm categoryId={selectedCategory === 'all' || selectedCategory === 'uncategorized' ? undefined : selectedCategory} />
       </div>
       
-      <Card style={{ flex: 1, overflow: 'hidden' }}>
+      <Divider style={{
+          top: 0,
+          bottom: 0,
+          margin: 0
+        }} 
+      />
+      <div style={{ flex: 1, overflow: 'hidden' }}>
         <Splitter style={{ height: '100%' }}>
           <Splitter.Panel defaultSize="25%" min="20%" max="70%">
             <CategoriesFilter 
@@ -29,7 +35,7 @@ export function TodoPage(): React.ReactElement {
             <TodoList categoryId={selectedCategory} />
           </Splitter.Panel>
         </Splitter>
-      </Card>
+      </div>
     </div>
   );
 } 

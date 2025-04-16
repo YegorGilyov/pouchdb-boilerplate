@@ -185,11 +185,9 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
       expandable={{
         defaultExpandAllRows: true
       }}
-      scroll={{ x: 'max-content', y: 'calc(100vh - 280px)' }}
-      style={{ height: '100%' }}
-      // For group header rows
-      childrenColumnName="children"
+      scroll={{ x: 'max-content', y: 'calc(100vh - 192px)' }}
       indentSize={0}
+      style={{ height: '100%' }}
     />
   );
 } 

@@ -11,6 +11,7 @@ Architecturaly the boilerplate consists of the following slices:
 - **shared**: shared utilities, types, and components
 - **db-admin**: admin interface for PouchDB
 - **todo**: sample app, a simple To-Do list with categories.
+- **proto**: your prototype (a placeholder)
 
 Every new prototype is supposed to be a separate slice.
 
@@ -51,7 +52,7 @@ src/
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   └── pages/                    # Page components
 │
-├── your-proto-slice/             # Your prototype
+├── proto/                        # Your prototype
 │   ├── components/               # UI components
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   ├── layouts/                  # Layout components
@@ -79,10 +80,10 @@ src/
 ## Routing
 
 - Implement React Router with routes for every slice (except for `app` and `shared`):
-  - /your-proto-name (your prototype slice)
+  - /proto (your prototype slice)
   - /todos (**todo** slice)
   - /db-admin (**db-admin** slice)
-- If a slice implements it's own routing (`your-proto-slice/routes/`), include it using lazy loading (the same way as routing ins included for the DB admin section)
+- If a slice implements it's own routing (`proto/routes/`), include it using lazy loading (the same way as routing ins included for the DB admin section)
 
 ## Documentation for slices
 

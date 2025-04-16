@@ -58,7 +58,7 @@
 - **Purpose**: a menu listing categories with to-do counts, allowing users to select a category to filter the todo list, with scrolling support for long lists. Also it provides functionality to create, edit, and delete categories, enabling users to manage their category list. 
 - **Hooks Used**:
   - `useCategories`: provides a list of categories and all the operations (create, update, delete).
-  - `useTodos`: provides a list of todos with ids of assigned categories, so that the number of todos for each category can be calcilated.
+  - `useTodos`: provides a list of todos with ids of assigned categories, so that the number of todos for each category can be calculated.
 - **Props**:
   - `selectedCategory`: the currently selected category (e.g., "All", "Uncategorized", or a specific category ID).
   - `onCategorySelect`: callback function triggered when a category is selected, updating the filter state.

@@ -32,6 +32,7 @@ export function TodoForm({ categoryId }: TodoFormProps): React.ReactElement {
     >
       <Form.Item
         name="title"
+        style={{ margin: 0 }}
         rules={[{ required: true, message: 'Title cannot be empty' }]}
       >
         <Input

@@ -42,6 +42,12 @@ export const dbIndexes = [
   },
   {
     index: {
+      fields: ['type', 'categoryIds']
+    },
+    name: 'idx-type-categoryIds'
+  },
+  {
+    index: {
       fields: ['type', 'createdAt', 'categoryIds']
     },
     name: 'idx-type-createdAt-categoryIds'
