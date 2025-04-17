@@ -35,7 +35,7 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
     {
       key: 'todos',
       icon: <UnorderedListOutlined />,
-      label: 'Todos',
+      label: 'To-Do',
       onClick: () => navigate('/todos')
     },
     {
@@ -48,10 +48,7 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: '0 16px' }}>
-        <div style={{ float: 'left', marginRight: 20, color: 'white', fontSize: '18px', fontWeight: 'bold', lineHeight: '64px' }}>
-          Todo App
-        </div>
+      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: '0' }}>
         <Menu
           theme="dark"
           mode="horizontal"

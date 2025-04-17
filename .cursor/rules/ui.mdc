@@ -1,6 +1,6 @@
 ---
 description: 
-globs: src/components/**/*.tsx, src/pages/**/*.tsx, src/layouts/**/*.tsx
+globs: *.tsx
 alwaysApply: false
 ---
 # Rules: UI Design Best Practices

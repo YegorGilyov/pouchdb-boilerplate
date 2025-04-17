@@ -1,0 +1,86 @@
+---
+description: Creating entity-specific hooks working with PouchDB
+globs: 
+alwaysApply: false
+---
+# Rules: Creating entity-specific hooks working with PouchDB
+
+## Entity-specific hooks
+- Implement hooks for every entity, for example:
+  - `useBananas` which provides its state and the following operations:
+    - `createBanana`: Creates a new banana
+    - `updateBanana`: Updates a banana's attributes
+    - `deleteBanana`: Deletes a banana
+
+## Database Context Usage
+- Always use `usePouchDB()` to access database operations
+- Leverage the standardized `dbOperations` interface for all database interactions:
+  * `get`: Get document by ID
+  * `find`: Find documents matching a selector
+  * `create`: Create a new document
+  * `update`: Update an existing document
+  * `remove`: Delete a document
+  * `subscribeToChanges`: Subscribe to database changes
+- Maintain consistency with PouchDB-specific query patterns and indexing
+- Ensure all operations use the shared database connection
+
+## Consistent State Structure
+- Always maintain `[entities, loading, error]` state variables
+- Initialize with empty array and `loading=true`
+
+## Fetch Pattern
+- Create a reusable `fetchEntities` function with silent mode option
+- Use appropriate selectors and indices for efficient queries
+  - Specify indices explicitly
+  - Always include in the selector all fields you use in the sort specification (for example, if you need to sort by `createdAt`, include `createdAt: { $gte: null }` in the selector) 
+  - The order of fields in the sort specification should generally match the order in the index (for example, if the index consists of `type` and `createdAt`, and you need to filter by `type` and sort by `createdAt`, `type` should also be included in the sort specification)
+  - When sorting, use `desc` and `asc` consistently (always all `desc` or all `asc`)
+- Implement proper error handling with user feedback
+
+## Change Subscription
+- Subscribe to database changes on mount
+- Filter changes relevant to the entity
+- Filter changes by the id prefix, not by the type: e.g. `changedDoc._id.startsWith('banana:')` in `useBananas`
+- Use silent refetching to update data without changing loading state
+- Clean up subscription on unmount
+
+## CRUD Operations
+- Implement standard operations (create, update, delete)
+- Include entity-specific validation logic
+- Maintain timestamps (createdAt, updatedAt)
+- Handle relationships between entities appropriately
+- Operations should ONLY perform the database action, handle errors, and provide toast message feedback
+- After a successful operation, do NOT manually update the local state (let the changes subscription handle the state update instead)
+
+## Relationship Management
+- Include methods for managing relationships with other entities
+- Consider cascading effects when deleting entities
+
+## Error Handling and User Reedback
+- Normalize errors with consistent format
+- Log errors to console
+- Show user-friendly messages
+- Rethrow errors to allow upstream handling
+- Provide toast message feedback for all operations using Ant Design’s `App.useApp().message` API (see [antd-messages.mdc](mdc:.cursor/rules/antd-messages.mdc)).
+
+## Loading state management:
+- Indicate loading state only during user-initiated actions that require waiting:
+  * Initial page/content loading
+  * User-triggered filter application
+  * Form submissions
+  * Explicit data refresh requests
+- NEVER indicate loading state during real-time updates triggered by PouchDB change events
+
+## Return Object Structure
+- Return object with entities array, states, and CRUD functions
+- Define return type with TypeScript interface
+
+## Dependency Management
+- Use proper dependency arrays in hooks, keep those arrays minimal
+- Disable exhaustive deps warnings when needed with appropriate comments
+
+## Reference Implementation
+- Use entity-specific hooks from the **todo** slice as a reference implementation: create new hooks the same way
+
+
+

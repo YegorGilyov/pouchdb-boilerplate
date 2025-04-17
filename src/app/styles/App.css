@@ -15,12 +15,3 @@ html, body, #root {
   width: 100%;
 }
 
-/* Fix Ant Design Table width issues */
-.ant-table-cell {
-  word-break: break-word;
-}
-
-/* Make checkboxes a bit easier to click */
-.ant-checkbox-wrapper {
-  padding: 4px;
-}

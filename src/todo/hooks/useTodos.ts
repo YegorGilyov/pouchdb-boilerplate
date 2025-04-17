@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { App } from 'antd';
 import { usePouchDB } from '../../shared/contexts/PouchDBProvider';
 import { TodoDocument, UseTodosReturn } from '../../shared/types';
@@ -11,7 +11,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
   const { message } = App.useApp();
 
   // Helper function to fetch todos with silent option
-  const fetchTodos = async (silent: boolean = false) => {
+  const fetchTodos = useCallback(async (silent: boolean = false) => {
     try {
       if (!silent) {
         setLoading(true);
@@ -58,7 +58,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
         setLoading(false);
       }
     }
-  };
+  }, [categoryId, dbOperations, setTodos, setLoading, setError, message]);
 
   // Fetch todos based on category filter
   useEffect(() => {

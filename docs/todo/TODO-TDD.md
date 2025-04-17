@@ -9,29 +9,30 @@
 
 ## Data Schema
 
-### Todo Document
-
 ```tsx
-{
-  _id: "todo:123456",  // Unique ID prefixed with "todo:"
-  type: "todo",        // Document type for filtering
-  title: "Complete project proposal",
-  completed: false,
-  createdAt: "2025-04-08T09:30:00Z",
-  updatedAt: "2025-04-08T09:30:00Z",
-  categoryIds: ["category_abc", "category_def"]  // References to categories
+// Base document interface that all entities extend
+export interface BaseDocument {
+  _id: string;
+  _rev?: string;
+  type: string;
+  createdAt: string;
 }
-```
 
-### Category Document
+// Entity-specific interfaces
+export interface TodoDocument extends BaseDocument {
+  type: 'todo';
+  title: string;
+  completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+  categoryIds: string[];
+}
 
-```tsx
-{
-  _id: "category:123456",  // Unique ID prefixed with "category:"
-  type: "category",        // Document type for filtering
-  name: "Work",
-  createdAt: "2025-04-01T10:00:00Z",
-  updatedAt: "2025-04-01T10:00:00Z"
+export interface CategoryDocument extends BaseDocument {
+  type: 'category';
+  name: string;
+  createdAt: string;
+  updatedAt: string;
 }
 ```
 
@@ -50,7 +51,6 @@
     - Top: `TodoForm` for creating new to-dos (title input only; auto-assigns selected category).
     - Below: Ant Design `Splitter` with `CategoriesFilter` on the left (25% width) and `TodoList` on the right (75% width).
       - Follow `.cursor/rules/antd-splitter.mdc` to implement the splitter.
-    - The main area below `TodoForm` is wrapped in an Ant Design `Card` for a subtle shadow effect.
 - **Components**: see **Component Documentation** in `TODO-COMPONENTS.md`
 
 ## Data Access Layer

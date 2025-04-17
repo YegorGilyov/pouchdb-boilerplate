@@ -131,7 +131,7 @@ export function CategoriesFilter({
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ padding: '16px', borderBottom: '1px solid #f0f0f0' }}>
+      <div style={{ padding: '16px' }}>
         <Button
           icon={<PlusOutlined />}
           onClick={showCreateModal}
@@ -144,7 +144,7 @@ export function CategoriesFilter({
         mode="inline"
         selectedKeys={selectedCategory ? [selectedCategory] : []}
         onSelect={({ selectedKeys }) => onCategorySelect(selectedKeys[0])}
-        style={{ flex: 1, overflow: 'auto' }}
+        style={{ flex: 1, overflow: 'auto', border: 'none' }}
         items={menuItems}
       />
 

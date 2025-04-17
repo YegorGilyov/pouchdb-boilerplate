@@ -46,12 +46,10 @@
 - **UI**: utilizes Ant Design's `Table` with grouping, fixed header, and fixed columns for status, title, and actions.
   - **Grouping**: uses tree data to group todos by status (incomplete/complete). Groups must be collapsible and expanded by default.
   - **Columns**:
-    - **Status** (no header title): Checkbox indicating completion status (fixed column).
-    - **To-Do**: displays the todo title, truncated with tooltips for long titles. Editable using Ant Design’s `Typography.Text` with a visible edit icon (fixed column).
+    - **To-Do**: (fixed column) displays the checkbox indicating completion status, and the todo title truncated with tooltips for long titles. The title is editable using Ant Design’s `Typography.Text` with a visible edit icon.
     - **Categories**: presented as Ant Design `Tag` components. Users can add or remove categories via a `CategoriesPicker` popover triggered by a "+" button. The column is wide enough to accommodate all categories, with horizontal scrolling enabled in the table if necessary.
     - **Created**: displays only the date (without time).
     - **Actions** (no header title): Delete icon (fixed column).
-  - **Table Design**: compact, with all rows (including group headers) having the same height.
 
 ## CategoriesFilter
 

@@ -5,6 +5,7 @@ import { useTodos } from '../hooks/useTodos';
 import { useCategories } from '../hooks/useCategories';
 import { TodoDocument } from '../../shared/types';
 import { CategoriesPicker } from './CategoriesPicker';
+import '../styles/TodoList.css';
 
 const { Text } = Typography;
 
@@ -72,42 +73,33 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
   // Table columns configuration
   const columns = [
     {
-      title: '',
-      dataIndex: 'todo',
-      key: 'status',
-      width: 50,
-      fixed: 'left' as const,
-      render: (todo: TodoDocument) => {
-        if (!todo) return null; // For group headers
-        return (
-          <Checkbox
-            checked={todo.completed}
-            onChange={() => handleToggleComplete(todo)}
-          />
-        );
-      }
-    },
-    {
       title: 'To-Do',
       dataIndex: 'todo',
       key: 'title',
       width: 300,
       fixed: 'left' as const,
       render: (todo: TodoDocument, record: any) => {
-        if (!todo) return record.title; // For group headers
+        if (!todo) return (
+          <span style={{ fontWeight: 'bold' }}>{record.title}</span>
+        ); // For group headers
         return (
-          <Text
-            ellipsis={{ tooltip: todo.title }}
-            editable={{
-              onChange: (newTitle) => handleUpdateTitle(todo, newTitle),
-              tooltip: 'Click to edit'
-            }}
-            style={{ width: '100%', display: 'block' }}
-            // Add strikethrough for completed todos
-            delete={todo.completed}
-          >
-            {todo.title}
-          </Text>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Checkbox
+              checked={todo.completed}
+              onChange={() => handleToggleComplete(todo)}
+            />
+            <Text
+              className="editable-cell"
+              ellipsis={{ tooltip: todo.title }}
+              editable={{
+                onChange: (newTitle) => handleUpdateTitle(todo, newTitle),
+                tooltip: 'Click to edit'
+              }}
+              style={{ width: '100%', display: 'block' }}
+            >
+              {todo.title}
+            </Text>
+          </div>
         );
       }
     },
@@ -185,9 +177,10 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
       expandable={{
         defaultExpandAllRows: true
       }}
-      scroll={{ x: 'max-content', y: 'calc(100vh - 192px)' }}
+      scroll={{ x: 'max-content', y: 'calc(100vh - 184px)' }}
       indentSize={0}
       style={{ height: '100%' }}
+      className="todo-list-table"
     />
   );
 } 

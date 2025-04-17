@@ -1,6 +1,6 @@
 ---
 description: 
-globs: *.tsx, *.ts
+globs: *.tsx,*.ts
 alwaysApply: false
 ---
 # Rules: TypeScript Best Practices

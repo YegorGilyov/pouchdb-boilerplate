@@ -7,11 +7,11 @@
 The purpose of this app is to provide a boilerplate for building UI prototypes as local-first applications, using PouchDB as a database. 
 
 Architecturaly the boilerplate consists of the following slices:
-- **app**: application shell
-- **shared**: shared utilities, types, and components
-- **db-admin**: admin interface for PouchDB
+- **app**: application shell.
+- **shared**: shared utilities, types, and components.
+- **db-admin**: admin interface for PouchDB.
 - **todo**: sample app, a simple To-Do list with categories.
-- **proto**: your prototype (a placeholder)
+- **proto**: your prototype (a placeholder).
 
 Every new prototype is supposed to be a separate slice.
 
@@ -50,7 +50,8 @@ src/
 ├── todo/                         # Sample app, a simple To-Do list with categories
 │   ├── components/               # UI components
 │   ├── hooks/                    # Entity-specific hooks to provide database access
-│   └── pages/                    # Page components
+│   ├── pages/                    # Page components
+│   └── styles/                   # Styles
 │
 ├── proto/                        # Your prototype
 │   ├── components/               # UI components
@@ -58,7 +59,7 @@ src/
 │   ├── layouts/                  # Layout components
 │   ├── pages/                    # Page components
 │   ├── routes/                   # Routes
-│   └── routes/                   # Styles
+│   └── styles/                   # Styles
 │
 ├── index.css
 └── main.tsx
@@ -76,6 +77,19 @@ src/
     - **Your-Prototype-Name**: your prototype.
     - **To-Do**: sample To-Do app.
     - **DB**: DB admin interface. 
+
+## Data Access Layer
+
+- Implement a Data Access Layer, which abstracts away the complexities of data retrieval, manipulation, and state management from the rest of the application. This layer should consist of a single entity-agnostic PouchDB Provider (belongs to `shared`), and entity-specific hooks for every entity (belong to `todo` and `proto`).
+- Implement a single PouchDB Provider and make it available to the entire application using React Context.
+- `PouchDBProvider` should provide the following entity-agnostic operations:
+  - `get`: Get document by ID
+  - `find`: Find documents matching a selector
+  - `create`: Create a new document
+  - `update`: Update an existing document
+  - `remove`: Delete a document
+  - `subscribeToChanges`: Subscribe to database changes
+- Implement a hook for using the PouchDB context.
 
 ## Routing
 

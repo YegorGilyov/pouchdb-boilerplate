@@ -1,6 +1,6 @@
 ---
 description: 
-globs: src/components/**/*.tsx, src/pages/**/*.tsx, src/layouts/**/*.tsx,src/App.tsx
+globs: *.tsx
 alwaysApply: false
 ---
 # Rules: Ant Design Best Practices

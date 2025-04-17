@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { App } from 'antd';
 import { usePouchDB } from '../../shared/contexts/PouchDBProvider';
 import { CategoryDocument, TodoDocument, UseCategoriesReturn } from '../../shared/types';
@@ -11,7 +11,7 @@ export function useCategories(): UseCategoriesReturn {
   const { message } = App.useApp();
 
   // Helper function to fetch categories with silent option
-  const fetchCategories = async (silent: boolean = false) => {
+  const fetchCategories = useCallback(async (silent: boolean = false) => {
     try {
       if (!silent) {
         setLoading(true);
@@ -37,7 +37,7 @@ export function useCategories(): UseCategoriesReturn {
         setLoading(false);
       }
     }
-  };
+  }, [dbOperations, setCategories, setLoading, setError, message]);
 
   // Fetch all categories
   useEffect(() => {

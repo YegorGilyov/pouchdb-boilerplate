@@ -30,21 +30,6 @@ alwaysApply: false
 - Optimize network requests
 - Employ memoization techniques (e.g., React.memo, useMemo, useCallback)
 
-## React Project Structure
-- Group related components together
-- Recommended structure for React projects:
-  ```
-  /src
-  - /components - UI components
-  - /contexts - contexts 
-  - /layouts - layout components
-  - /pages - page components
-  - /hooks - custom hooks
-  - /routes - router configuration
-  - /styles - global styles (if needed)
-  - /types - TypeScript type definitions
-  ```
-
 
 
   

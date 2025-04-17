@@ -1,0 +1,16 @@
+.todo-list-table .ant-table-cell {
+  padding: 4px 8px !important;
+}
+
+.editable-cell {
+  margin: 0 !important;
+}
+
+.editable-cell .ant-input {
+  padding: 0 11px !important;
+  margin: -4px 0 !important;
+  height: 40px !important;
+  line-height: 38px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
