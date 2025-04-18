@@ -12,11 +12,10 @@ export function TodoPage(): React.ReactElement {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ margin: 24  }}>
         <TodoForm categoryId={selectedCategory === 'all' || selectedCategory === 'uncategorized' ? undefined : selectedCategory} />
       </div>
-      
       <Divider style={{
           top: 0,
           bottom: 0,

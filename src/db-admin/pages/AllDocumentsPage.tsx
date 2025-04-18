@@ -131,7 +131,7 @@ export function AllDocumentsPage(): React.ReactElement {
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px - 48px)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 48px)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <Title level={2}>All Documents</Title>
           <Button
@@ -153,10 +153,10 @@ export function AllDocumentsPage(): React.ReactElement {
             columns={columns} 
             rowKey="_id"
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 10, position: ['bottomLeft'] }}
             bordered={false}
+            scroll={{ y: 'calc(100vh - 235px)' }}
             style={{ height: '100%' }}
-            scroll={{ y: 'calc(100vh - 285px)' }}
           />
         </div>
       </div>

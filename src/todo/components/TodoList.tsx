@@ -177,7 +177,7 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
       expandable={{
         defaultExpandAllRows: true
       }}
-      scroll={{ x: 'max-content', y: 'calc(100vh - 184px)' }}
+      scroll={{ x: 'max-content', y: 'calc(100vh - 120px)' }}
       indentSize={0}
       style={{ height: '100%' }}
       className="todo-list-table"

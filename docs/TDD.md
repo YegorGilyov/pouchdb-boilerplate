@@ -72,32 +72,29 @@ src/
   - **UI Design Best Practices** specified in `.cursor/rules/ui.mdc` 
   - **Ant Design Best Practices** specified in `.cursor/rules/antd-general.mdc`
 - **Layout**:
-  - Fixed top navigation bar using Ant Design's `Menu`.
-  - The top navigation bar includes entry points to every slice (except for `app` and `shared`):
-    - **Your-Prototype-Name**: your prototype.
-    - **To-Do**: sample To-Do app.
-    - **DB**: DB admin interface. 
+  - Navigation between slices (`proto`, `todo`, `db-admin`) is done using Ant Design's `FloatingButton`.
+  - The page layout is completely defined by the current slice. 
+  - The navigational floating button is the only UI element shared between slices.
 
 ## Data Access Layer
 
-- Implement a Data Access Layer, which abstracts away the complexities of data retrieval, manipulation, and state management from the rest of the application. This layer should consist of a single entity-agnostic PouchDB Provider (belongs to `shared`), and entity-specific hooks for every entity (belong to `todo` and `proto`).
-- Implement a single PouchDB Provider and make it available to the entire application using React Context.
-- `PouchDBProvider` should provide the following entity-agnostic operations:
+- The Data Access Layer abstracts away the complexities of data retrieval, manipulation, and state management from the rest of the application. This layer should consist of a single entity-agnostic PouchDB Provider (belongs to `shared`), and entity-specific hooks for every entity (belong to `todo` and `proto`).
+- There is a single PouchDB provider available for the entire application, using React Context.
+- `PouchDBProvider` provides the following entity-agnostic operations:
   - `get`: Get document by ID
   - `find`: Find documents matching a selector
   - `create`: Create a new document
   - `update`: Update an existing document
   - `remove`: Delete a document
   - `subscribeToChanges`: Subscribe to database changes
-- Implement a hook for using the PouchDB context.
 
 ## Routing
 
-- Implement React Router with routes for every slice (except for `app` and `shared`):
+- There is a React Router with routes for every slice (except for `app` and `shared`):
   - /proto (your prototype slice)
   - /todos (**todo** slice)
   - /db-admin (**db-admin** slice)
-- If a slice implements it's own routing (`proto/routes/`), include it using lazy loading (the same way as routing ins included for the DB admin section)
+- If a slice implements it's own routing (e.g. `proto/routes/`), it should be included using lazy loading (the same way as routing is included for the DB admin section)
 
 ## Documentation for slices
 

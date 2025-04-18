@@ -16,10 +16,10 @@ export function DbAdminLayout({ children }: DbAdminLayoutProps): React.ReactElem
         style={{
           background: '#fff',
           overflow: 'auto',
-          height: 'calc(100vh - 64px)',
+          height: '100%',
           position: 'fixed',
           left: 0,
-          top: 64,
+          top: 0,
           bottom: 0,
           padding: 0,
           boxShadow: '2px 0 8px rgba(0,0,0,0.05)'
@@ -27,18 +27,6 @@ export function DbAdminLayout({ children }: DbAdminLayoutProps): React.ReactElem
       >
         <DbAdminNavigation />
       </Sider>
-      <Divider 
-        type="vertical" 
-        style={{
-          height: 'calc(100vh - 64px)',
-          position: 'fixed',
-          left: 256,
-          top: 64,
-          bottom: 0,
-          margin: 0,
-          zIndex: 1
-        }}
-      />
       <Layout style={{ padding: '0', marginLeft: 256 }}>
         <Layout.Content
           style={{

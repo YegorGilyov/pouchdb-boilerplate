@@ -55,6 +55,7 @@ export function DbAdminNavigation(): React.ReactElement {
   return (
     <Menu
       mode="inline"
+      theme="dark"
       selectedKeys={[sidebarSelectedKey]}
       style={{ height: '100%', borderRight: 0 }}
       items={sidebarItems}

@@ -97,6 +97,7 @@ export function QueryEditorPage(): React.ReactElement {
   const queryPlaceholder = `{
   "selector": {
     "type": "todo",
+    "createdAt": { "$gte": null },
     "categoryIds": { "$size": 0 }
   },
   "sort": [ 
@@ -119,7 +120,7 @@ export function QueryEditorPage(): React.ReactElement {
           value={queryText}
           onChange={(e) => setQueryText(e.target.value)}
           placeholder={queryPlaceholder}
-          autoSize={{ minRows: 8, maxRows: 16 }}
+          autoSize={{ minRows: 5, maxRows: 16 }}
           style={{ fontFamily: 'monospace' }}
         />
 
@@ -173,7 +174,7 @@ export function QueryEditorPage(): React.ReactElement {
               dataSource={results} 
               columns={getColumns()} 
               rowKey="_id"
-              pagination={{ pageSize: 5 }}
+              pagination={{ pageSize: 5, position: ['bottomLeft'] }}
               scroll={{ x: 'max-content' }}
               bordered={false}
             />

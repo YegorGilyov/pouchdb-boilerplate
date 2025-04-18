@@ -140,14 +140,18 @@ export function CategoriesFilter({
           Add Category
         </Button>
       </div>
-      <Menu
-        mode="inline"
-        selectedKeys={selectedCategory ? [selectedCategory] : []}
-        onSelect={({ selectedKeys }) => onCategorySelect(selectedKeys[0])}
-        style={{ flex: 1, overflow: 'auto', border: 'none' }}
-        items={menuItems}
-      />
-
+      <div style={{ 
+        height: 'calc(100vh - 154px)',
+        overflow: 'auto',
+      }}>
+        <Menu
+          mode="inline"
+          selectedKeys={selectedCategory ? [selectedCategory] : []}
+          onSelect={({ selectedKeys }) => onCategorySelect(selectedKeys[0])}
+          style={{ border: 'none' }}
+          items={menuItems}
+        />
+      </div>
       {/* Create Category Modal */}
       <Modal
         title="Create Category"
