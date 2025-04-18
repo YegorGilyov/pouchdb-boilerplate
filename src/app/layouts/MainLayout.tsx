@@ -2,7 +2,8 @@ import React from 'react';
 import { FloatButton, Layout } from 'antd';
 import { 
   UnorderedListOutlined, 
-  DatabaseOutlined
+  DatabaseOutlined,
+  ExperimentOutlined
 } from '@ant-design/icons';
 import { useLocation } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
   const getSelectedIcon = () => {
     if (path.startsWith('/todos')) return <UnorderedListOutlined />;
     if (path.startsWith('/db-admin')) return <DatabaseOutlined />;
+    if (path.startsWith('/proto')) return <ExperimentOutlined />;
     return '';
   };
 
@@ -27,9 +29,9 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
       <FloatButton.Group
         trigger="hover"
         type="primary"
-        style={{ insetInlineEnd: 94 }}
         icon={getSelectedIcon()}
       >
+        {!path.startsWith('/proto') && <FloatButton icon={<ExperimentOutlined />} />}
         {!path.startsWith('/todos') && <FloatButton icon={<UnorderedListOutlined />} href='/todos' />}
         {!path.startsWith('/db-admin') && <FloatButton icon={<DatabaseOutlined />} href='/db-admin/info' />}
       </FloatButton.Group>
