@@ -143,45 +143,44 @@ export function QueryEditorPage(): React.ReactElement {
         </div>
       </div>
 
-      {(results.length > 0 || error || loading) && (
-        <div className="query-results-container">
-          <Divider />
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: '24px' }}>
-              <Spin size="large" tip="Executing query...">
-                <div style={{ height: 50 }} />
-              </Spin>
+      <div className="query-results-container">
+        <Divider />
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '24px' }}>
+            <Spin size="large" tip="Executing query...">
+              <div style={{ height: 50 }} />
+            </Spin>
+          </div>
+        ) : error ? (
+          <Alert type="error" message="Query Error" description={error.message} />
+        ) : (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <Space>
+                <DatabaseOutlined />
+                <Title level={5} style={{ margin: 0 }}>Query Results</Title>
+                {queryTime !== null && (
+                  <Text type="secondary">({queryTime.toFixed(2)}ms)</Text>
+                )}
+                <Text>{results.length} document(s) found</Text>
+              </Space>
+              <Button icon={<ClearOutlined />} onClick={clearResults}>
+                Clear Results
+              </Button>
             </div>
-          ) : error ? (
-            <Alert type="error" message="Query Error" description={error.message} />
-          ) : (
-            <>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <Space>
-                  <DatabaseOutlined />
-                  <Title level={5} style={{ margin: 0 }}>Query Results</Title>
-                  {queryTime !== null && (
-                    <Text type="secondary">({queryTime.toFixed(2)}ms)</Text>
-                  )}
-                  <Text>{results.length} document(s) found</Text>
-                </Space>
-                <Button icon={<ClearOutlined />} onClick={clearResults}>
-                  Clear Results
-                </Button>
-              </div>
 
-              <Table 
-                dataSource={results} 
-                columns={getColumns()} 
-                rowKey="_id"
-                pagination={{ pageSize: 5 }}
-                scroll={{ x: 'max-content' }}
-                bordered={false}
-              />
-            </>
-          )}
-        </div>
-      )}
+            <Table 
+              dataSource={results} 
+              columns={getColumns()} 
+              rowKey="_id"
+              pagination={{ pageSize: 5 }}
+              scroll={{ x: 'max-content' }}
+              bordered={false}
+            />
+          </>
+        )}
+      </div>
+      
     </div>
   );
 }
