@@ -25,15 +25,15 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout>
       <FloatButton.Group
         trigger="hover"
         type="primary"
         icon={getSelectedIcon()}
       >
-        {!path.startsWith('/proto') && <FloatButton icon={<ExperimentOutlined />} />}
-        {!path.startsWith('/todos') && <FloatButton icon={<UnorderedListOutlined />} href='/todos' />}
-        {!path.startsWith('/db-admin') && <FloatButton icon={<DatabaseOutlined />} href='/db-admin/info' />}
+        {!path.startsWith('/proto') && <FloatButton icon={<ExperimentOutlined />} tooltip='Prototype' />}
+        {!path.startsWith('/todos') && <FloatButton icon={<UnorderedListOutlined />} tooltip='To-Do App' href='/todos' />}
+        {!path.startsWith('/db-admin') && <FloatButton icon={<DatabaseOutlined />} tooltip='Database Administration' href='/db-admin/info' />}
       </FloatButton.Group>
       <Layout>
         <Content
