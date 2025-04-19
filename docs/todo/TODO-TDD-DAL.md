@@ -1,11 +1,13 @@
 # To-Do App with Categories - Data Access Layer
 
+**IMPORTANT**: Please follow requirements from this document carefully and to the letter!
+
 When implementing entity-specific hooks, follow rules **Creating entity-specific hooks working with PouchDB** specified in `.cursor/rules/pouchdb.mdc`.
 
 ## Entity-specific hooks
 
 - `useTodos` which provides its state and the following operations:
-  - `createTodo`: Creates a new todo
+  - `createTodo`: Creates a new todo.
   - `updateTodo`: Updates a todo's title or completion status. 
   - `deleteTodo`: Deletes a todo.
   - `addTodoToCategory`: Adds a todo to a category.

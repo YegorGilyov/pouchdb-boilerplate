@@ -18,7 +18,7 @@ export function DbAdminNavigation(): React.ReactElement {
     if (path === '/db-admin/info') return 'db-info';
     if (path === '/db-admin/indexes') return 'db-indexes';
     if (path === '/db-admin/documents') return 'db-documents';
-    if (path === '/db-admin/query') return 'db-query';
+    if (path === '/db-admin/mango-queries') return 'db-mango-queries';
     return '';
   };
 
@@ -45,10 +45,10 @@ export function DbAdminNavigation(): React.ReactElement {
       onClick: () => navigate('/db-admin/documents')
     },
     {
-      key: 'db-query',
+      key: 'db-mango-queries',
       icon: <CodeOutlined />,
-      label: 'Query Editor',
-      onClick: () => navigate('/db-admin/query')
+      label: 'Mango Queries',
+      onClick: () => navigate('/db-admin/mango-queries')
     }
   ];
 

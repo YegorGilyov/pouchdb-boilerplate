@@ -19,7 +19,7 @@ interface QueryResult {
   [key: string]: any;
 }
 
-export function QueryEditorPage(): React.ReactElement {
+export function MangoQueriesPage(): React.ReactElement {
   const { db } = usePouchDB();
   const [queryText, setQueryText] = useState<string>('{\n  "selector": {\n    "type": "todo"\n  }\n}');
   const [results, setResults] = useState<QueryResult[]>([]);
@@ -110,7 +110,7 @@ export function QueryEditorPage(): React.ReactElement {
   return (
     <div>
       <div className="query-editor-container">
-        <Title level={2}>MongoDB-Style Query</Title>
+        <Title level={2}>Mango Query</Title>
         <Text type="secondary" style={{ marginBottom: '16px', display: 'block' }}>
           Use the Mango query syntax to search for documents. Enter a JSON object with 'selector' property. 
           You can also use 'fields', 'sort', 'use_index', and 'limit'.

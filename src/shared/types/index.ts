@@ -24,7 +24,9 @@ export interface CategoryDocument extends BaseDocument {
 }
 
 // Union type of all document types
-export type AppDocument = TodoDocument | CategoryDocument;
+export type AppDocument = 
+  | TodoDocument 
+  | CategoryDocument;
 
 // Database index specifications
 export const dbIndexes = [

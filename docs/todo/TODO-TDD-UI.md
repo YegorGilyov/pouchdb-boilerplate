@@ -1,8 +1,20 @@
-# To-Do App with Categories - Component Documentation
+# To-Do App with Categories - Technical Design Document - UI
 
 **IMPORTANT**: Please follow requirements from this document carefully and to the letter!
 
-## TodoForm
+- **Design System**: Follow Ant Design's default styles and components.
+- **Rules**: when implementing UI, make sure to follow rules: 
+  - **UI Design Best Practices** specified in `.cursor/rules/ui.mdc` 
+  - **Ant Design Best Practices** specified in `.cursor/rules/antd-general.mdc`
+- **Layout**:
+  - **TodoPage** (main page):
+    - Top: `TodoForm` for creating new to-dos (title input only; auto-assigns selected category).
+    - Below: Ant Design `Splitter` with `CategoriesFilter` on the left (25% width) and `TodoList` on the right (75% width).
+      - Follow `.cursor/rules/antd-splitter.mdc` to implement the splitter.
+
+## Components
+
+### TodoForm
 
 - **Purpose**: A form for users to create new todos with a title and automatic category assignment based on the current filter.
 - **Hooks Used**:
@@ -21,7 +33,7 @@
   - Validates that the title is not empty, displaying an error message "Title cannot be empty" if the user attempts to submit an empty title.
 - **UI**: built with Ant Design's `Form` and `Input` components for a consistent look and feel.
 
-## TodoList
+### TodoList
 
 - **Purpose**: displays and manages a list of todos, allowing users to view, edit, complete, delete, and categorize them.
 - **Hooks Used**:
@@ -51,7 +63,7 @@
     - **Created**: displays only the date (without time).
     - **Actions** (no header title): Delete icon (fixed column).
 
-## CategoriesFilter
+### CategoriesFilter
 
 - **Purpose**: a menu listing categories with to-do counts, allowing users to select a category to filter the todo list, with scrolling support for long lists. Also it provides functionality to create, edit, and delete categories, enabling users to manage their category list. 
 - **Hooks Used**:
@@ -80,7 +92,7 @@
   - For each category the number of todos this category is assigned to is shown.
   - Leverages Ant Design's `Modal` components for each action (create, edit, delete), paired with input fields and confirmation buttons for a clean, user-friendly experience.
 
-## CategoriesPicker
+### CategoriesPicker
 
 - **Purpose**: a popover interface for assigning categories to a specific todo.
 - **Hooks Used**:
