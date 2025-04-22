@@ -61,7 +61,8 @@ src/
 │   ├── pages/                    # Page components
 │   ├── routes/                   # Routes
 │   ├── styles/                   # Styles
-│   └── types/                    # Entity-specific state and operations interfaces
+│   ├── types/                    # Entity-specific state and operations interfaces
+│   └── utils/                    # Utility functions
 │
 ├── index.css
 └── main.tsx
