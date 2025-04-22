@@ -35,10 +35,9 @@ src/
 │
 ├── shared/                       # Shared utilities, types, and components
 │   ├── contexts/                 # Shared contexts
-│   │   ├── PouchDBProvider.tsx   # PouchDB provider
+│   │   └── PouchDBProvider.tsx   # PouchDB provider
 │   ├── styles/                   # Shared styles 
 │   └── types/                    # Shared types, including entity-specific document interfaces
-│                                 # - 
 │
 ├── db-admin/                     # Admin interface for PouchDB
 │   ├── components/               # DB admin section UI components
@@ -48,7 +47,7 @@ src/
 │
 ├── todo/                         # Sample app, a simple To-Do list with categories
 │   ├── components/               # UI components
-│   ├── constants/                # Constants (e.g. indexes spec)
+│   ├── constants/                # Constants (e.g. index spec)
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   ├── pages/                    # Page components
 │   ├── styles/                   # Styles
@@ -56,7 +55,7 @@ src/
 │
 ├── proto/                        # Your prototype
 │   ├── components/               # UI components
-│   ├── constants/                # Constants (e.g. indexes spec)
+│   ├── constants/                # Constants (e.g. index spec)
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   ├── layouts/                  # Layout components
 │   ├── pages/                    # Page components
@@ -74,7 +73,7 @@ src/
 - **Rules**: when implementing UI, make sure to follow rules: 
   - **UI Design Best Practices** specified in `.cursor/rules/ui.mdc` 
   - **Ant Design Best Practices** specified in `.cursor/rules/antd-general.mdc`
-- **Layout**:
+- **Navigation and Layout**:
   - Navigation between slices (`proto`, `todo`, `db-admin`) is done using Ant Design's `FloatingButton`.
   - The page layout is completely defined by the current slice. 
   - The navigational floating button is the only UI element shared between slices.

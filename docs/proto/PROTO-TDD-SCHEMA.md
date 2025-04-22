@@ -19,7 +19,7 @@
   - Every `Configuration Element` is `Last edited by` one of the `Users`
   - Every `Item Type` has one `Workflow` and any number of `Custom Fields`
 
-## Data Schema
+## Data Schema (`src/shared/types/index.ts`)
 
 ```tsx
 // Base document interface that all entities extend
@@ -48,7 +48,7 @@ export interface SpaceDocument extends BaseDocument {
   adminUserIds: string[];  // References to Users who are admins
   updatedAt: string;
   // Denormalized fields to simplify queries
-  availableToUserIds: string[];  // References to Users who have access: [...memberIds, ...adminIds] for private Spaces, otherwise ['everyone']
+  denormAvailableToUserIds: string[];  // References to Users who have access: [...memberIds, ...adminIds] for private Spaces, otherwise ['everyone']
 }
 
 // Base for all Configuration Elements
@@ -64,10 +64,10 @@ export interface ConfigElementDocument extends BaseDocument {
   lastEditedAt: string;
   updatedAt: string;
   // Denormalized fields to simplify queries
-  availableInSpaceIds: string[];  // References to Spaces where this element is available: [managedInSpaceId, ...usedInSpaceIds]
-  availableToUserIds: string[];   // References to Users who have access: ['everyone'] if this element is published, or available in a Space that is not private, otherwise all members of all Spaces this element is available in
-  managedByUserIds: string[];     // References to Users who are admins of the Space this element is managed in
-  canBeReusedByUserIds: string[]; // References to Users who can reuse this element: ['everyone'] if this element is published, otherwise admins of the Space this element is managed in
+  denormAvailableInSpaceIds: string[];  // References to Spaces where this element is available: [managedInSpaceId, ...usedInSpaceIds]
+  denormAvailableToUserIds: string[];   // References to Users who have access: ['everyone'] if this element is published, or available in a Space that is not private, otherwise all members of all Spaces this element is available in
+  denormManagedByUserIds: string[];     // References to Users who are admins of the Space this element is managed in
+  denormCanBeReusedByUserIds: string[]; // References to Users who can reuse this element: ['everyone'] if this element is published, otherwise admins of the Space this element is managed in
 }
 
 // Item Type configuration element

@@ -7,7 +7,7 @@
 - Two main entities: `Todos` and `Categories`.
 - Many-to-many relationship between `Todos` and `Categories`.
 
-## Data Schema
+## Data Schema (`src/shared/types/index.ts`)
 
 ```tsx
 // Base document interface that all entities extend

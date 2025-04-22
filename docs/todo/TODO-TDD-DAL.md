@@ -21,7 +21,39 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
 
 - `useTodoDBInit`: creates indexes.
 
-## Interfaces
+## Database index specification (`src/todo/constants/indexes.ts`)
+
+```ts
+// Database index specifications
+export const todoDBIndexes = [
+  {
+    index: {
+      fields: ['type']
+    },
+    name: 'idx-type'
+  },
+  {
+    index: {
+      fields: ['type', 'name']
+    },
+    name: 'idx-type-name'
+  },
+  {
+    index: {
+      fields: ['type', 'categoryIds']
+    },
+    name: 'idx-type-categoryIds'
+  },
+  {
+    index: {
+      fields: ['type', 'createdAt', 'categoryIds']
+    },
+    name: 'idx-type-createdAt-categoryIds'
+  }
+] as const;
+```
+
+## Interfaces (`src/todo/types/index.ts`)
 
 ```ts
 import { OperationState, CategoryDocument, TodoDocument } from '../../shared/types';

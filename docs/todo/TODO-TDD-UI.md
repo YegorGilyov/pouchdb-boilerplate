@@ -13,8 +13,8 @@
 
 - **Purpose**: Main page.
 - **Hooks Used**:
-  - `useTodoDBInit`: to initialize the database
-- **Laytout**:
+  - `useTodoDBInit`: to initialize the database.
+- **Layout**:
   - Top: `TodoForm` for creating new to-dos (title input only; auto-assigns selected category).
   - Below: Ant Design `Splitter` with `CategoriesFilter` on the left (25% width) and `TodoList` on the right (75% width).
     - Follow `.cursor/rules/antd-splitter.mdc` to implement the splitter.

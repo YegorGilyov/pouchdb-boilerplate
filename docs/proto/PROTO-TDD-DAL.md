@@ -33,28 +33,36 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
   - Sorting: by name
   - Operations:
     - `addToSpace`: Adds an element to a space (`usedInSpaceIds`).
-      - Should take care of the denormalized fields (`denormAvailableInSpaceIds`, `denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
+      - Recalculates all the denormalized fields from scratch on every change using the utility function `denormalizeDocument`.
     - `removeFromSpace`: Removes an element from a space (`usedInSpaceIds`).
-      - Should take care of the denormalized fields (`denormAvailableInSpaceIds`, `denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
+      - Recalculates all the denormalized fields from scratch on every change using the utility function `denormalizeDocument`.
     - `setPublished`: Publishes or unpublishes an element.
-      - Should take care of the denormalized fields (`denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
+      - Recalculates all the denormalized fields from scratch on every change using the utility function `denormalizeDocument`.
     - `setActive`: Activates or deactivates an element.
 
 ## Infrastructure hooks
 
-- `useProtoDBInit`: creates indexes and ensures that the entire database is properly denormalized.
+- `useProtoDBInit` initializes the database:
+  - Ensures that the entire database is properly denormalized (uses the utility function `denormalizeDocument`).
+  - Creates indexes according to the spec.
 
 ## Utility functions
 
 - `denormalizeDocument`: an utility function to update denormalized fields for entities
-  - * @param `doc` The document to denormalize
-  - * @param `db` The PouchDB database instance
+  * @param `doc` The document to denormalize
+  * @param `db` The PouchDB database instance
 
-## Database index specification
+## Database index specification (`src/proto/constants/indexes.ts`)
 
 ```ts
 // Database index specifications
 export const dbIndexes = [
+  {
+    index: {
+      fields: ['type']
+    },
+    name: 'idx-type'
+  },
   {
     index: {
       fields: ['type', 'name']
@@ -82,7 +90,7 @@ export const dbIndexes = [
 ] as const;
 ```
 
-## Interfaces
+## Interfaces (`src/proto/types/index.ts`)
 
 ```ts
 import { OperationState, UserDocument, SpaceDocument, ConfigElementDocument } from '../../shared/types';
