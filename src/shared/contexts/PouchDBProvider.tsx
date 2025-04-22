@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import { 
@@ -25,8 +25,8 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
-  // Database operations with TypeScript types
-  const dbOperations: DBOperations = {
+  // Database operations with TypeScript types - memoized to prevent unnecessary re-renders
+  const dbOperations: DBOperations = useMemo(() => ({
     // Get a document by ID
     async get<T extends AppDocument>(id: string): Promise<T> {
       try {
@@ -86,7 +86,7 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
           docToCreate._id = `${docToCreate.type}:${new Date().toISOString()}`;
         }
         
-        const result = await db.put(docToCreate);
+        const result = await db.put(docToCreate as unknown as PouchDB.Core.PutDocument<AppDocument>);
         return { ...docToCreate, _rev: result.rev } as T;
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
@@ -104,7 +104,7 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
         setLoading(true);
         setError(null);
         
-        const result = await db.put(doc);
+        const result = await db.put(doc as unknown as PouchDB.Core.PutDocument<AppDocument>);
         return { ...doc, _rev: result.rev } as T;
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
@@ -159,15 +159,15 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
         changes.removeListener('change', callback); // Remove the specific listener
       };
     }
-  };
+  }), [/* No dependencies needed since setLoading/setError are stable function references */]);
 
   // Context value
-  const value: PouchDBContextValue = {
+  const value: PouchDBContextValue = useMemo(() => ({
     db,
     dbOperations,
     loading,
     error
-  };
+  }), [dbOperations, loading, error]);
 
   return (
     <PouchDBContext.Provider value={value}>

@@ -31,7 +31,7 @@ export function MainLayout({ children }: MainLayoutProps): React.ReactElement {
         type="primary"
         icon={getSelectedIcon()}
       >
-        {!path.startsWith('/proto') && <FloatButton icon={<ExperimentOutlined />} tooltip='Prototype' />}
+        {!path.startsWith('/proto') && <FloatButton icon={<ExperimentOutlined />} tooltip='Prototype' href='/proto/space' />}
         {!path.startsWith('/todos') && <FloatButton icon={<UnorderedListOutlined />} tooltip='To-Do App' href='/todos' />}
         {!path.startsWith('/db-admin') && <FloatButton icon={<DatabaseOutlined />} tooltip='Database Administration' href='/db-admin/info' />}
       </FloatButton.Group>

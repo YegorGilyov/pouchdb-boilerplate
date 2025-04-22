@@ -59,7 +59,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
         setLoading(false);
       }
     }
-  }, [categoryId, dbOperations, setTodos, setLoading, setError, message]);
+  }, [categoryId, setTodos, setLoading, setError, message]);
 
   // Fetch todos based on category filter
   useEffect(() => {

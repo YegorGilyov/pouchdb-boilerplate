@@ -43,4 +43,9 @@
 
 ## Router
 
-- Implement separate routing for this slice and include it in `src/app/routes/Routes.tsx` using lazy loading
+- Implement separate routing for this slice and include it in `src/app/routes/Routes.tsx` using lazy loading.
+- Make SpacePage accessible at "/proto/space" with two query parameters:
+  * `spaceId`: specifies the current space.
+  * `userId`: specifies the current user.
+- The route should support both required and optional parameters (e.g., `/proto/space?spaceId=123&userId=456` or `/proto/space?userId=456`).
+- Ensure the root route for the prototype slice automatically routes to the space page.

@@ -42,9 +42,11 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
 
 ## Infrastructure hooks
 
-- `useProtoDBInit` initializes the database:
-  - Ensures that the entire database is properly denormalized (uses the utility function `denormalizeDocument`).
-  - Creates indexes according to the spec.
+- `useProtoDBInit` initializes the database.
+  - Database initialization consists of two steps:
+    * Creating indexes according to the spec.
+    * Ensuring that the entire database is properly denormalized (using the utility function `denormalizeDocument`).
+  - To prevent concurrent database initialization, use a shared singleton pattern with promise synchronization. 
 
 ## Utility functions
 

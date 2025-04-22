@@ -4,8 +4,7 @@ import {
   InfoCircleOutlined,
   TableOutlined, 
   FileSearchOutlined,
-  CodeOutlined,
-  FunctionOutlined
+  CodeOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 

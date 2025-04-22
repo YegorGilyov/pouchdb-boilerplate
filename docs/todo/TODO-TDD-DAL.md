@@ -20,6 +20,7 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
 ## Infrastructure hooks
 
 - `useTodoDBInit`: creates indexes.
+  - To prevent concurrent database initialization, use a shared singleton pattern with promise synchronization. 
 
 ## Database index specification (`src/todo/constants/indexes.ts`)
 

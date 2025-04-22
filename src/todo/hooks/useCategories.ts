@@ -38,7 +38,7 @@ export function useCategories(): UseCategoriesReturn {
         setLoading(false);
       }
     }
-  }, [dbOperations, setCategories, setLoading, setError, message]);
+  }, [setCategories, setLoading, setError, message]);
 
   // Fetch all categories
   useEffect(() => {
