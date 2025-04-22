@@ -7,39 +7,54 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
 ## Entity-specific hooks
 
 - `useUsers` provides only its state (without filtering), no operations.
+  - Sorting: by name
 - `useSpaces` provides only its state (with filtering), no operations.
   - Filter parameters:
     * `availableTo`: user `_id` who has access to this space.
       - Private spaces are available to its admins and members only.
-      - Other spaces are available to everyone.
-    * `managedBy`: user _id who is an admin of this space.
+      - Other spaces are available to **everyone**.
+      - Use the denormalized field `availableTo`.
+      - Use `$in` operator to ensure that spaces that are available to **everyone** pass through the filter as well as spaces that are available to this user specifically.
+  - Sorting: by name
 - `useConfigElements` provides its state (with filtering) and operations.
   - Filter parameters:
-    * `type`: `itemType`, `workflow`, or `customField`.
-    * `availableIn`: space `_id` where this element is managed or used.
-    * `availableTo`: user `_id` who has access to this element.
-      - Elements that are managed in spaces that are not private, are avaliable to everyone.
-      - Other elements are available to members and admins of spaces they are managed in or used in.
-    * `managedBy`: user `_id` who is an admin of a space this element is managed in.
-      - First, fetch ids of spaces where this user is an admin, then filter config elements by ids of spaces they are managed in.
-    * `canBeReusedBy`: user `_id` who can reuse this element.
-      - If an element is published, it can be reused by everyone.
-      - Otherwise only admins of the space this element is managed in can reuse it. 
-    * `isPublished`
-    * `isActive`
+    - Mandatory:
+      * `type`: `itemType`, `workflow`, or `customField`
+    - Optional (cannot be used together):
+      * `availableIn`: space `_id` where this element is managed or used.
+        - Use the denormalized field `denormAvailableInSpaceIds`.
+        - Use `$in` operator to ensure that elements that are available in this space pass through the filter.
+      * `availableTo`: user `_id` who has access to this element.
+        - Use the denormalized field `denormAvailableToUserIds`.
+        - Use `$in` operator to ensure that elements that are available to **everyone** pass through the filter as well as elements that are available to this user specifically.
+      * `canBeReusedBy`: user `_id` who can reuse this element.
+        - Use the denormalized field `denormCanBeReusedByUserIds`.
+        - Use `$in` operator to ensure that elements that can be reused by **everyone** pass through the filter as well as elements that can be reused by this user specifically.
+  - Sorting: by name
   - Operations:
-    - `addToSpace`: Adds an element to a space.
-    - `removeFromSpace`: Removes an element from a space.
+    - `addToSpace`: Adds an element to a space (`usedInSpaceIds`).
+      - Should take care of the denormalized fields (`denormAvailableInSpaceIds`, `denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
+    - `removeFromSpace`: Removes an element from a space (`usedInSpaceIds`).
+      - Should take care of the denormalized fields (`denormAvailableInSpaceIds`, `denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
     - `setPublished`: Publishes or unpublishes an element.
+      - Should take care of the denormalized fields (`denormAvailableToUserIds`, `denormCanBeReusedByUserIds`) of the configuration element. Recalculate those fields from scratch on every change.
+    - `setActive`: Activates or deactivates an element.
 
-## Interfaces
+## Infrastructure hooks
+
+- `useProtoDBInit`: creates indexes and ensures that the entire database is properly denormalized.
+
+## Utility functions
+
+- `denormalizeDocument`: an utility function to update denormalized fields for entities
+  - * @param `doc` The document to denormalize
+  - * @param `db` The PouchDB database instance
+
+## Database index specification
 
 ```ts
 // Database index specifications
 export const dbIndexes = [
-  // ...
-  // Other indices
-  // ...
   {
     index: {
       fields: ['type', 'name']
@@ -48,32 +63,29 @@ export const dbIndexes = [
   },
   {
     index: {
-      fields: ['type', 'name', 'adminIds']
+      fields: ['type', 'name', 'availableToUserIds']
     },
-    name: 'idx-type-name-admins'
+    name: 'idx-type-name-availableTo'
   },
   {
     index: {
-      fields: ['type', 'name', 'adminIds', 'memberIds', 'isPrivate']
+      fields: ['type', 'name', 'availableInSpaceIds']
     },
-    name: 'idx-type-name-admins-members-private'
+    name: 'idx-type-name-availableIn'
   },
   {
     index: {
-      fields: ['type', 'name', 'managedInSpaceIds', 'usedInSpaceIds', 'isActive', 'isPublished']
+      fields: ['type', 'name', 'canBeReusedByUserIds']
     },
-    name: 'idx-type-name-managedin-usedin-active-published'
-  },
-  // ...
-  // Other indices
-  // ...
+    name: 'idx-type-name-canBeReusedBy'
+  }
 ] as const;
+```
 
-// Error and loading state interface
-export interface OperationState {
-  error: Error | null;
-  loading: boolean;
-}
+## Interfaces
+
+```ts
+import { OperationState, UserDocument, SpaceDocument, ConfigElementDocument } from '../../shared/types';
 
 // User state and operations interfaces
 export interface UseUsersReturn extends OperationState {
@@ -87,7 +99,6 @@ export interface UseSpacesReturn extends OperationState {
 
 export interface SpaceFilter {
   availableTo?: string; 
-  managedBy?: string;   
 }
 
 // Configutation element state and operation interfaces
@@ -106,9 +117,6 @@ export interface ConfigElementFilter {
   type?: string;
   availableIn?: string; 
   availableTo?: string;
-  managedBy?: string;
-  canBeReusedBy?: string;  
-  isPublished?: boolean;  
-  isActive?: boolean;
+  canBeReusedBy?: string; 
 }
 ```

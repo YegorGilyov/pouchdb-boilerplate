@@ -2,4 +2,4 @@
 export { DatabaseInfoPage } from './DatabaseInfoPage';
 export { IndexesPage } from './IndexesPage';
 export { AllDocumentsPage } from './AllDocumentsPage';
-export { MangoQueriesPage } from './MangoQueriesPage'; 
+export { MangoQueriesPage } from './MangoQueriesPage';

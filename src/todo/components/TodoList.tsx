@@ -3,7 +3,7 @@ import { Table, Checkbox, Typography, Tag, Space, Button, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useTodos } from '../hooks/useTodos';
 import { useCategories } from '../hooks/useCategories';
-import { TodoDocument } from '../../shared/types';
+import { TodoDocument, CategoryDocument } from '../../shared/types';
 import { CategoriesPicker } from './CategoriesPicker';
 import '../styles/TodoList.css';
 
@@ -20,15 +20,15 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
   // Structure data for tree table (grouped by completion status)
   const tableData = useMemo(() => {
     // Separate incomplete and complete todos
-    const incompleteTodos = todos.filter(todo => !todo.completed);
-    const completeTodos = todos.filter(todo => todo.completed);
+    const incompleteTodos = todos.filter((todo: TodoDocument) => !todo.completed);
+    const completeTodos = todos.filter((todo: TodoDocument) => todo.completed);
 
     // Prepare tree data structure
     return [
       {
         key: 'incomplete',
         title: `Incomplete (${incompleteTodos.length})`,
-        children: incompleteTodos.map(todo => ({
+        children: incompleteTodos.map((todo: TodoDocument) => ({
           key: todo._id,
           todo: todo
         }))
@@ -36,7 +36,7 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
       {
         key: 'complete',
         title: `Complete (${completeTodos.length})`,
-        children: completeTodos.map(todo => ({
+        children: completeTodos.map((todo: TodoDocument) => ({
           key: todo._id,
           todo: todo
         }))
@@ -66,7 +66,7 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
 
   // Get category name by ID
   const getCategoryName = (categoryId: string) => {
-    const category = categories.find(c => c._id === categoryId);
+    const category = categories.find((c: CategoryDocument) => c._id === categoryId);
     return category ? category.name : 'Unknown';
   };
 

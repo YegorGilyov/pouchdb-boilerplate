@@ -3,3 +3,6 @@ Please read all rules in .cursor/rules and let me know if there is something you
 Please review all files in src and tell me what you think.
 
 Please read TDD.md, COMPONENTS.md, and DAL.md, and build this thing out. Make sure you follow all the rules provided. Some important files already exist: `src/types/index.ts`, `src/lib/db.ts`, `src/contexts/PuchDBProvider.tsx` - use those files and do not change them.
+
+Show me how you would implement hooks according to this specification. Pay special attention to the query selectors. Follow requirements from the technical design documents and from the rules @pouchdb.mdc carefully and to the letter!  
+

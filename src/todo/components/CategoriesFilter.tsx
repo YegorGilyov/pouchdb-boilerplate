@@ -3,7 +3,7 @@ import { Menu, Button, Modal, Input, Form } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useCategories } from '../hooks/useCategories';
 import { useTodos } from '../hooks/useTodos';
-import { CategoryDocument } from '../../shared/types';
+import { CategoryDocument, TodoDocument } from '../../shared/types';
 
 interface CategoriesFilterProps {
   selectedCategory: string;
@@ -21,13 +21,13 @@ export function CategoriesFilter({
   const getTodosCount = (categoryId: string | null) => {
     if (categoryId === null) {
       // Count uncategorized todos
-      return todos.filter(todo => todo.categoryIds.length === 0).length;
+      return todos.filter((todo: TodoDocument) => todo.categoryIds.length === 0).length;
     } else if (categoryId === 'all') {
       // Count all todos
       return todos.length;
     } else {
       // Count todos in a specific category
-      return todos.filter(todo => todo.categoryIds.includes(categoryId)).length;
+      return todos.filter((todo: TodoDocument) => todo.categoryIds.includes(categoryId)).length;
     }
   };
 
@@ -99,7 +99,7 @@ export function CategoriesFilter({
         </div>
       ),
     },
-    ...categories.map(category => ({
+    ...categories.map((category: CategoryDocument) => ({
       key: category._id,
       label: (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

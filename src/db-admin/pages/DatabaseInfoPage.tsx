@@ -8,7 +8,7 @@ const { Title, Paragraph, Text } = Typography;
 const { confirm } = Modal;
 
 export function DatabaseInfoPage(): React.ReactElement {
-  const { db, createIndexes } = usePouchDB();
+  const { db } = usePouchDB();
   const [info, setInfo] = useState<PouchDB.Core.DatabaseInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -106,8 +106,6 @@ export function DatabaseInfoPage(): React.ReactElement {
             if (doc._rev) delete doc._rev;
             await db.put(doc);
           }
-
-          await createIndexes();
           
           // Refresh database info
           const dbInfo = await db.info();

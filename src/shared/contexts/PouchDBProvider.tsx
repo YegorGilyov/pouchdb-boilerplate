@@ -1,12 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import { 
   AppDocument, 
   PouchDBContextValue, 
   DBOperations,
-  PouchDBInstance,
-  dbIndexes
+  PouchDBInstance
 } from '../types';
 
 // Register the find plugin
@@ -25,34 +24,6 @@ interface PouchDBProviderProps {
 export function PouchDBProvider({ children }: PouchDBProviderProps): React.ReactElement {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  // Create necessary indexes
-  const createIndexes = async () => {
-    try {
-      await Promise.all(
-        dbIndexes.map(indexSpec => {
-          const fullSpec = {
-            ...indexSpec,
-            ddoc: indexSpec.name // Set ddoc equal to name
-          };
-          return db.createIndex(fullSpec as any);
-        })
-      );
-    } catch (err) {
-      console.error('Failed to create index:', err);
-      throw err;
-    }
-  };
-
-  // Initialize database indexes
-  useEffect(() => {
-    setLoading(true);
-    createIndexes()
-      .then(() => setIsReady(true))
-      .catch(err => setError(err))
-      .finally(() => setLoading(false));
-  }, []);
 
   // Database operations with TypeScript types
   const dbOperations: DBOperations = {
@@ -194,14 +165,9 @@ export function PouchDBProvider({ children }: PouchDBProviderProps): React.React
   const value: PouchDBContextValue = {
     db,
     dbOperations,
-    createIndexes,
     loading,
     error
   };
-
-  if (!isReady) {
-    return <div>Initializing database...</div>; // Or any loading component
-  }
 
   return (
     <PouchDBContext.Provider value={value}>

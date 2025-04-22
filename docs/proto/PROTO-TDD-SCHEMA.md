@@ -43,10 +43,12 @@ export interface SpaceDocument extends BaseDocument {
   type: 'space';
   name: string;
   description?: string;
-  isPrivate: boolean;
-  memberIds: string[]; // References to User _ids
-  adminIds: string[];  // References to User _ids who are admins
+  isPrivate: boolean;      // Private Spaces are available to their members only
+  memberUserIds: string[]; // References to Users who are members
+  adminUserIds: string[];  // References to Users who are admins
   updatedAt: string;
+  // Denormalized fields to simplify queries
+  availableToUserIds: string[];  // References to Users who have access: [...memberIds, ...adminIds] for private Spaces, otherwise ['everyone']
 }
 
 // Base for all Configuration Elements
@@ -55,12 +57,17 @@ export interface ConfigElementDocument extends BaseDocument {
   description?: string;
   isActive: boolean;
   isPublished: boolean;
-  managedInSpaceId: string;  // The Space where this element is managed
-  usedInSpaceIds: string[];  // The Spaces where this element is used
-  createdById: string;       // Reference to User _id who created it
-  lastEditedById: string;    // Reference to User _id who last edited it
+  managedInSpaceId: string;       // Reference to the Space where this element is managed
+  usedInSpaceIds: string[];       // References to Spaces where this element is used
+  createdByUserId: string;        // Reference to the User who created it
+  lastEditedByUserId: string;     // Reference to the User who last edited it
   lastEditedAt: string;
   updatedAt: string;
+  // Denormalized fields to simplify queries
+  availableInSpaceIds: string[];  // References to Spaces where this element is available: [managedInSpaceId, ...usedInSpaceIds]
+  availableToUserIds: string[];   // References to Users who have access: ['everyone'] if this element is published, or available in a Space that is not private, otherwise all members of all Spaces this element is available in
+  managedByUserIds: string[];     // References to Users who are admins of the Space this element is managed in
+  canBeReusedByUserIds: string[]; // References to Users who can reuse this element: ['everyone'] if this element is published, otherwise admins of the Space this element is managed in
 }
 
 // Item Type configuration element

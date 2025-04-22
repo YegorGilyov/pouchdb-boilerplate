@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { App } from 'antd';
 import { usePouchDB } from '../../shared/contexts/PouchDBProvider';
-import { CategoryDocument, TodoDocument, UseCategoriesReturn } from '../../shared/types';
+import { UseCategoriesReturn } from '../types';
+import { CategoryDocument, TodoDocument } from '../../shared/types';
 
 export function useCategories(): UseCategoriesReturn {
   const [categories, setCategories] = useState<CategoryDocument[]>([]);

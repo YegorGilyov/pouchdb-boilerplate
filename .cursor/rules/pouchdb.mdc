@@ -30,12 +30,18 @@ alwaysApply: false
 
 ## Fetch Pattern
 - Create a reusable `fetchEntities` function with silent mode option
+- Avoid client-side filtering, instead build sequences of Mango queries using Find pligin
+- To avoid unecessary complexity, do not use Map/Reduce 
 - Use appropriate selectors and indices for efficient queries
   - Specify indices explicitly
-  - The order of fields in the selector should match the order in the index
-  - Always include in the selector all fields you use in the sort specification (for example, if you need to sort by `createdAt`, include `createdAt: { $gte: null }` in the selector) 
-  - The order of fields in the sort specification should match the order in the index (for example, if the index consists of `type` and `createdAt`, and you need to filter by `type` and sort by `createdAt`, `type` should also be included in the sort specification)
-  - When sorting, use `desc` and `asc` consistently (always all `desc` or all `asc`)
+  - In the selector:
+    - Fields should match the prefix of the index fields in the same order
+    - Don't skip fields from the left side of the index
+    - Always include in the selector all fields you use in the sort specification
+  - In the sort specification:
+    - Fields should match the prefix of the index fields in the same order
+    - Don't skip fields from the left side of the index
+    - Use `desc` and `asc` consistently (always all `desc` or all `asc`)
 - Implement proper error handling with user feedback
 
 ## Change Subscription

@@ -6,11 +6,18 @@
 - **Rules**: when implementing UI, make sure to follow rules: 
   - **UI Design Best Practices** specified in `.cursor/rules/ui.mdc` 
   - **Ant Design Best Practices** specified in `.cursor/rules/antd-general.mdc`
-- **Layout**:
-  - **TodoPage** (main page):
-    - Top: `TodoForm` for creating new to-dos (title input only; auto-assigns selected category).
-    - Below: Ant Design `Splitter` with `CategoriesFilter` on the left (25% width) and `TodoList` on the right (75% width).
-      - Follow `.cursor/rules/antd-splitter.mdc` to implement the splitter.
+
+## Pages
+
+### TodoPage
+
+- **Purpose**: Main page.
+- **Hooks Used**:
+  - `useTodoDBInit`: to initialize the database
+- **Laytout**:
+  - Top: `TodoForm` for creating new to-dos (title input only; auto-assigns selected category).
+  - Below: Ant Design `Splitter` with `CategoriesFilter` on the left (25% width) and `TodoList` on the right (75% width).
+    - Follow `.cursor/rules/antd-splitter.mdc` to implement the splitter.
 
 ## Components
 

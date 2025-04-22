@@ -5,7 +5,7 @@ import {
   DatabaseInfoPage, 
   IndexesPage, 
   AllDocumentsPage, 
-  MangoQueriesPage 
+  MangoQueriesPage
 } from '../pages';
 
 export function DbAdminRoutes(): React.ReactElement {

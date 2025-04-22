@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
-import { Divider, Splitter } from 'antd';
+import { Divider, Splitter, Alert } from 'antd';
 import { TodoForm } from '../components/TodoForm';
 import { TodoList } from '../components/TodoList';
 import { CategoriesFilter } from '../components/CategoriesFilter';
+import { useTodoDBInit } from '../hooks/useTodoDBInit';
 
 export function TodoPage(): React.ReactElement {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const { loading: dbInitLoading, error: dbInitError } = useTodoDBInit();
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
   };
+
+  // Show loading state while initializing database
+  if (dbInitLoading) {
+    return <div style={{ margin: 24 }}>Setting up todo functionality...</div>;
+  }
+
+  // Show error state if initialization failed
+  if (dbInitError) {
+    return (
+      <div style={{ margin: 24 }}>
+        <Alert
+          type="error"
+          message="Failed to initialize todo functionality"
+          description={dbInitError.message}
+        />
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

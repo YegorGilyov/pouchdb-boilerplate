@@ -37,9 +37,8 @@ src/
 │   ├── contexts/                 # Shared contexts
 │   │   ├── PouchDBProvider.tsx   # PouchDB provider
 │   ├── styles/                   # Shared styles 
-│   └── types/                    # Shared types, including:
-│                                 # - entity-specific document interfaces
-│                                 # - state and operations interfaces for every entity across all slices
+│   └── types/                    # Shared types, including entity-specific document interfaces
+│                                 # - 
 │
 ├── db-admin/                     # Admin interface for PouchDB
 │   ├── components/               # DB admin section UI components
@@ -49,17 +48,21 @@ src/
 │
 ├── todo/                         # Sample app, a simple To-Do list with categories
 │   ├── components/               # UI components
+│   ├── constants/                # Constants (e.g. indexes spec)
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   ├── pages/                    # Page components
-│   └── styles/                   # Styles
+│   ├── styles/                   # Styles
+│   └── types/                    # Entity-specific state and operations interfaces
 │
 ├── proto/                        # Your prototype
 │   ├── components/               # UI components
+│   ├── constants/                # Constants (e.g. indexes spec)
 │   ├── hooks/                    # Entity-specific hooks to provide database access
 │   ├── layouts/                  # Layout components
 │   ├── pages/                    # Page components
 │   ├── routes/                   # Routes
-│   └── styles/                   # Styles
+│   ├── styles/                   # Styles
+│   └── types/                    # Entity-specific state and operations interfaces
 │
 ├── index.css
 └── main.tsx
@@ -98,8 +101,8 @@ src/
 
 ## Documentation for slices
 
-### To-Do app
+### To-Do app - Technical Design Documentation
 
-- **docs/todo/TODO-TDD.md**: Technical Design Document.
-- **docs/todo/TODO-COMPONENTS.md**: Detailed documentation for each custom component.
-- **docs/todo/TODO-DAL.md**: Data Access Layer.
+- **docs/todo/TODO-TDD-SCHEMA.md**: Schema
+- **docs/todo/TODO-TDD-DAL.md**: Data Access Layer
+- **docs/todo/TODO-TDD-UI.md**: UI (pages and components)
