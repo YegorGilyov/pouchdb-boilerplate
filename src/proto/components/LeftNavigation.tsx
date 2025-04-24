@@ -8,9 +8,10 @@ import type { MenuProps } from 'antd';
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
+  onSettingsOpen: (settingsSection: "itemTypes" | "workflows" | "customFields") => void;
 }
 
-export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.ReactElement {
+export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigationProps): React.ReactElement {
   const [searchParams, setSearchParams] = useSearchParams();
   const { users, loading: usersLoading, error: usersError } = useUsers();
   const { spaces, loading: spacesLoading, error: spacesError } = useSpaces(
@@ -84,7 +85,8 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
     },
     {
       key: 'settings',
-      label: 'Settings'
+      label: 'Settings',
+      onClick: () => onSettingsOpen("itemTypes")
     },
     {
       key: 'help',
@@ -124,6 +126,44 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
       icon: <StarOutlined />,
       label: 'Starred tasks',
     },
+  ];
+
+  // Space settings menu items
+  const spaceSettingsMenuItems: MenuProps['items'] = [
+    {
+      key: 'general',
+      label: 'General space settings'
+    },
+    {
+      type: 'divider'
+    },
+    {
+      key: 'itemTypes',
+      label: 'Item Types',
+      onClick: () => onSettingsOpen("itemTypes")
+    },
+    {
+      key: 'customFields',
+      label: 'Custom Fields',
+      onClick: () => onSettingsOpen("customFields")
+    },
+    {
+      key: 'workflows',
+      label: 'Workflows',
+      onClick: () => onSettingsOpen("workflows")
+    },
+    {
+      key: 'automations',
+      label: 'Automations'
+    },
+    {
+      key: 'requestForms',
+      label: 'Request forms'
+    },
+    {
+      key: 'blueprints',
+      label: 'Blueprints'
+    }
   ];
 
   if (hasError) {
@@ -232,7 +272,15 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
                   <AppstoreOutlined style={{ marginRight: '8px' }} />
                   <span>Space overview</span>
                 </div>
-                <SettingOutlined />
+                <Dropdown
+                  menu={{
+                    items: spaceSettingsMenuItems
+                  }}
+                  trigger={['click']}
+                  placement="bottomLeft"
+                >
+                  <SettingOutlined />
+                </Dropdown>
               </div>
             </div>
           )}

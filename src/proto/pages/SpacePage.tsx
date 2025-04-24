@@ -16,6 +16,12 @@ export function SpacePage(): React.ReactElement {
   // Initialize the database
   const { loading: dbLoading, error: dbError } = useProtoDBInit();
   
+  // Handle settings panel opening
+  const handleSettingsOpen = (settingsSection: "itemTypes" | "workflows" | "customFields") => {
+    console.log(`Opening settings section: ${settingsSection}`);
+    // Implement actual settings panel logic here
+  };
+  
   if (dbLoading) {
     return (
       <Spin tip="Setting up prototype functionality...">
@@ -42,7 +48,7 @@ export function SpacePage(): React.ReactElement {
         theme="light" 
         style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
       >
-        <LeftNavigation userId={userId} spaceId={spaceId} />
+        <LeftNavigation userId={userId} spaceId={spaceId} onSettingsOpen={handleSettingsOpen} />
       </Sider>
       <Content style={{ marginLeft: 256, background: '#fff' }}>
         <SpaceHome userId={userId} spaceId={spaceId} />
