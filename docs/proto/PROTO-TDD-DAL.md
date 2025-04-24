@@ -9,12 +9,13 @@ When implementing entity-specific hooks, follow rules **Creating entity-specific
 - `useUsers` provides only its state (without filtering), no operations.
   - Sorting: by name
 - `useSpaces` provides only its state (with filtering), no operations.
-  - Filter parameters:
+  - Filter parameters (cannot be used together):
     * `availableTo`: user `_id` who has access to this space.
       - Private spaces are available to its admins and members only.
       - Other spaces are available to **everyone**.
       - Use the denormalized field `availableTo`.
       - Use `$in` operator to ensure that spaces that are available to **everyone** pass through the filter as well as spaces that are available to this user specifically.
+    * `spaceIds`: an array of space ids.
   - Sorting: by name
 - `useConfigElements` provides its state (with filtering) and operations.
   - Filter parameters:
@@ -109,6 +110,7 @@ export interface UseSpacesReturn extends OperationState {
 
 export interface SpaceFilter {
   availableTo?: string; 
+  spaceIds?: string[];
 }
 
 // Configutation element state and operation interfaces

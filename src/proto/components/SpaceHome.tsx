@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography, Spin, Alert } from 'antd';
 import { useSpaces } from '../hooks';
-import styles from '../styles/SpaceHome.module.css';
 
 interface SpaceHomeProps {
   userId: string | null;
@@ -37,7 +36,7 @@ export function SpaceHome({ userId, spaceId }: SpaceHomeProps): React.ReactEleme
   }
 
   return (
-    <div className={styles.container}>
+    <div style={{ padding: 24 }}>
       <Typography.Title level={2}>
         {currentSpace ? currentSpace.name : 'Please select a space'}
       </Typography.Title>
@@ -49,7 +48,7 @@ export function SpaceHome({ userId, spaceId }: SpaceHomeProps): React.ReactEleme
           </Typography.Paragraph>
           
           {/* Additional space information could be displayed here */}
-          <div className={styles.spaceDetails}>
+          <div style={{ marginTop: 16, padding: 16, backgroundColor: '#f5f5f5', borderRadius: 4 }}>
             <Typography.Text type="secondary">Space ID: {spaceId}</Typography.Text>
           </div>
         </>

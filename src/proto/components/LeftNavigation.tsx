@@ -3,7 +3,6 @@ import { Select, Space, Typography, Spin, Alert, Empty, ConfigProvider, theme, S
 import { useSearchParams } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, SearchOutlined, InboxOutlined, StarOutlined } from '@ant-design/icons';
 import { useUsers, useSpaces } from '../hooks';
-import styles from '../styles/LeftNavigation.module.css';
 import type { MenuProps } from 'antd';
 
 interface LeftNavigationProps {
@@ -176,7 +175,7 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
                 placement="bottomLeft"
               >
                 <Avatar 
-                  src={'https://api.dicebear.com/9.x/dylan/svg?seed=' + userName} 
+                  src={'https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=' + userName} 
                   shape="square" 
                   size={24}
                   style={{ cursor: 'pointer' }}
@@ -227,7 +226,6 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
                 backgroundColor: 'rgba(255, 255, 255, 0.12)', 
                 borderRadius: '8px',
                 color: 'white',
-                fontWeight: 500,
                 cursor: 'pointer'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -254,7 +252,7 @@ export function LeftNavigation({ userId, spaceId }: LeftNavigationProps): React.
           )}
 
           {isLoading && (
-            <div className={styles.loadingContainer} style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '20px', textAlign: 'center' }}>
               <Spin />
             </div>
           )}

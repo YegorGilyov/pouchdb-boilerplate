@@ -20,4 +20,4 @@ alwaysApply: false
   * Silent data synchronization after changes
 - Use component-specific loading indicators instead of full-page loaders to maintain UI responsiveness during data loading
 - Ensure UI stability: components should maintain the same size/dimensions during loading states and empty states
-- Implement a consistent notification strategy - mutation hooks are supposed to provide toast message feedback for all operations, not UI components
+- Implement a consistent notification strategy - entity specific hooks at the data access layer are supposed to provide toast message feedback for all operations, not UI components

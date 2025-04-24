@@ -85,6 +85,10 @@ alwaysApply: false
 ## Dependency Management
 - Use proper dependency arrays in hooks, keep those arrays minimal
 - Disable exhaustive deps warnings when needed with appropriate comments
+- Use JSON.stringify for array or object dependencies in useEffect to detect content changes:
+  * Apply this pattern when the effect should re-run based on changes to array/object contents
+  * Example: `filter?.someArray ? JSON.stringify(filter.someArray) : undefined`
+  * This ensures the effect re-triggers when array elements change, not just when the reference changes
 
 ## Reference Implementation
 - Use entity-specific hooks from the **todo** slice as a reference implementation: create new hooks the same way

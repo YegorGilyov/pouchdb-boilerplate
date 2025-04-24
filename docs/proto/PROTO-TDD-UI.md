@@ -39,12 +39,29 @@ interface LeftNavigationProps {
 }
 ```
 - **Layout**:
-  - Users dropdown.
-  - Spaces dropdown (shows only spaces available to the current user).
+  - Wrike logo at the top left corner and user avatar at the top right corner in the same row.
+  - When you clock on the user avater, a menu with the following items opens:
+    * Current user name with a submenu of all available users to switch between
+    * Divider
+    * Non-functional menu items: `Settings`, `Help`, `Mobile apps`, `Privacy policy`
+    * Divider
+    * Non-functional Log out option
+  - Navigation menu with non-functional options: `Search`, `Inbox`, and `Starred tasks`.
+  - Space selector dropdown for switching between spaces.
+  - Space overview section with `Space overview` text and a gear icon at the right.
+  - Tools section with a `Tools` header and skeleton placeholder.
+  - Projects & folders section with a `Projects and folders` header and skeleton placeholder.
+- **UI**:
+  - Dark theme using Ant Design's `darkAlgorithm`.
+  - Avatar for user selection with dynamically generated image from DiceBear API (using URL format: 'https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=' + userName).
+  - No icons in the menu that opens when you clock click on the user avatar.
+  - Space overview section looks like a selected menu item, with a corresponding icon at the left, styled as a rounded button with light background color.
+  - Tools and Projects and folders sections displayed with secondary text headers and Ant Design Skeleton components to indicate future content.
 - **Behavior**:
-  - When selecting a user or a space, you are redirected to `SpacePage` with new URL parameters (`userId` and `spaceId`).
-  - If no `userId` is specified, select the first user in the list.
-  - If no `spaceId` is specified, select the first space in the list.
+  - When no `userId` is specified, it selects the first user in the list automatically.
+  - When no `spaceId` is specified or the current spaceId is not available to the user, it selects the first available space.
+  - When selecting a user or a space, it updates the URL parameters (`userId` and `spaceId`).
+  - Displays appropriate loading and error states.
 
 ### SpaceHome
 

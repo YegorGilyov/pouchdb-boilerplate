@@ -4,7 +4,6 @@ import { Layout, Spin, Alert } from 'antd';
 import { useProtoDBInit } from '../hooks';
 import { LeftNavigation } from '../components/LeftNavigation';
 import { SpaceHome } from '../components/SpaceHome';
-import styles from '../styles/SpacePage.module.css';
 
 const { Sider, Content } = Layout;
 
@@ -37,19 +36,17 @@ export function SpacePage(): React.ReactElement {
   }
 
   return (
-    <Layout className={styles.pageLayout}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider 
         width={256} 
         theme="light" 
-        className={styles.sider}
+        style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
       >
         <LeftNavigation userId={userId} spaceId={spaceId} />
       </Sider>
-      <Layout className={styles.contentLayout}>
-        <Content className={styles.content}>
-          <SpaceHome userId={userId} spaceId={spaceId} />
-        </Content>
-      </Layout>
+      <Content style={{ marginLeft: 256, background: '#fff' }}>
+        <SpaceHome userId={userId} spaceId={spaceId} />
+      </Content>
     </Layout>
   );
 } 
