@@ -12,6 +12,7 @@ export interface UseSpacesReturn extends OperationState {
 
 export interface SpaceFilter {
   availableTo?: string;
+  spaceIds?: string[];
 }
 
 // Configuration element state and operation interfaces

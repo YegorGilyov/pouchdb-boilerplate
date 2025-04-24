@@ -19,7 +19,7 @@
   * `useProtoDBInit`: to initialize the database.
 - **Layout**:
   - Left: `LeftNavigation`.
-  - Main area: just a placeholder.
+  - Main area: `SpaceHome`.
 
 ## Components
 
@@ -27,12 +27,17 @@
 
 - **Purpose**: it mocks the main navigation pane. This prototype only supports switching between users and navigation between spaces.
 - **Hooks Used**:
-  * `useProtoDBInit`: to initialize the database.
   * `useUsers`: to get a list of users.
   * `useSpaces`: to get a list of spaces available to the current user.
 - **Props**:
   * `userId`: current user Id.
   * `spaceId`: current space Id.
+```tsx
+interface LeftNavigationProps {
+  userId?: string | null;
+  spaceId?: string | null;
+}
+```
 - **Layout**:
   - Users dropdown.
   - Spaces dropdown (shows only spaces available to the current user).
@@ -40,6 +45,23 @@
   - When selecting a user or a space, you are redirected to `SpacePage` with new URL parameters (`userId` and `spaceId`).
   - If no `userId` is specified, select the first user in the list.
   - If no `spaceId` is specified, select the first space in the list.
+
+### SpaceHome
+
+- **Purpose**: it mocks a space dashboard.
+- **Hooks Used**:
+  * `useSpaces`: to get details of the current space.
+- **Props**:
+  * `userId`: current user Id.
+  * `spaceId`: current space Id.
+```tsx
+interface SpaceHomeProps {
+  userId: string | null;
+  spaceId: string | null;
+}
+```
+- **Layout**:
+  * Space name as a header.
 
 ## Router
 

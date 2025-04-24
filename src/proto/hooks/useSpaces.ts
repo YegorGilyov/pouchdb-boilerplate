@@ -33,6 +33,14 @@ export function useSpaces(filter?: SpaceFilter): UseSpacesReturn {
         };
       }
       
+      // Apply spaceIds filter if specified
+      if (filter?.spaceIds && filter.spaceIds.length > 0) {
+        selector = {
+          ...selector,
+          _id: { $in: filter.spaceIds.map(id => id.startsWith('space:') ? id : `space:${id}`) }
+        };
+      }
+      
       // Fetch spaces sorted by name
       const result = await dbOperations.find<SpaceDocument>(
         selector,
@@ -56,9 +64,11 @@ export function useSpaces(filter?: SpaceFilter): UseSpacesReturn {
 
   // Fetch spaces when filter changes
   useEffect(() => {
-    fetchSpaces(false); // Not silent on initial load or filter change
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter?.availableTo]);
+    fetchSpaces(false);
+  }, [
+    filter?.availableTo, 
+    filter?.spaceIds ? JSON.stringify(filter.spaceIds) : undefined
+  ]);
 
   // Subscribe to changes in space documents
   useEffect(() => {
@@ -83,7 +93,7 @@ export function useSpaces(filter?: SpaceFilter): UseSpacesReturn {
     // Clean up subscription on unmount
     return unsubscribe;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter?.availableTo]);
+  }, [filter?.availableTo, filter?.spaceIds]);
 
   return {
     spaces,
