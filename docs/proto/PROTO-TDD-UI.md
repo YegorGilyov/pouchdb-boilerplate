@@ -32,23 +32,37 @@
 - **Props**:
   * `userId`: current user Id.
   * `spaceId`: current space Id.
+  * `onSettingsOpen`: callback function that displays the Settings panel with specified section.
 ```tsx
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
+  onSettingsOpen: (settingsSection: "itemTypes" | "workflows" | "customFields") => void;
 }
 ```
 - **Layout**:
   - Wrike logo at the top left corner and user avatar at the top right corner in the same row.
-  - When you clock on the user avater, a menu with the following items opens:
+  - When you click on the user avater, a menu with the following items opens:
     * Current user name with a submenu of all available users to switch between
     * Divider
-    * Non-functional menu items: `Settings`, `Help`, `Mobile apps`, `Privacy policy`
+    * `Settings`: calls `onSettingsOpen` without specifying a section
+    * `Help`: non-functional
+    * `Mobile apps`: non-functional
+    * `Privacy policy`: non-functional
     * Divider
-    * Non-functional Log out option
+    * `Log out`: non-functional
   - Navigation menu with non-functional options: `Search`, `Inbox`, and `Starred tasks`.
   - Space selector dropdown for switching between spaces.
   - Space overview section with `Space overview` text and a gear icon at the right.
+    - When you click on the gear icon, a menu with the following items opens:
+      * `General space settings`: non-functional
+      * Divider
+      * `Item Types`: calls `onSettingsOpen("itemTypes")` 
+      * `Custom Fields`: calls `onSettingsOpen("customFields")`
+      * `Workflows`: calls `onSettingsOpen("workflows")`
+      * `Automations`: non-functional
+      * `Request forms`: non-functional
+      * `Blueprints`: non-functional
   - Tools section with a `Tools` header and skeleton placeholder.
   - Projects & folders section with a `Projects and folders` header and skeleton placeholder.
 - **UI**:
