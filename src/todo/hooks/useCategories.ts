@@ -71,7 +71,7 @@ export function useCategories(): UseCategoriesReturn {
   }, [dbOperations, fetchCategories]);
 
   // Create a new category
-  const createCategory = useCallback(async (name: string): Promise<void> => {
+  const createCategory = async (name: string): Promise<void> => {
     try {
       // Validate category name
       if (!name.trim()) {
@@ -104,10 +104,10 @@ export function useCategories(): UseCategoriesReturn {
       message.error(error.message || 'Failed to create category');
       throw error;
     }
-  }, [categories, dbOperations, message]);
+  };
 
   // Update a category's name
-  const updateCategory = useCallback(async (
+  const updateCategory = async (
     category: CategoryDocument, 
     newName: string
   ): Promise<void> => {
@@ -141,10 +141,10 @@ export function useCategories(): UseCategoriesReturn {
       message.error(error.message || 'Failed to update category');
       throw error;
     }
-  }, [categories, dbOperations, message]);
+  };
 
   // Delete a category
-  const deleteCategory = useCallback(async (category: CategoryDocument): Promise<void> => {
+  const deleteCategory = async (category: CategoryDocument): Promise<void> => {
     try {
       // Check if any todos use this category
       const associatedTodos = await dbOperations.find<TodoDocument>(
@@ -178,7 +178,7 @@ export function useCategories(): UseCategoriesReturn {
       message.error('Failed to delete category');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   return {
     categories,

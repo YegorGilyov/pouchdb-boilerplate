@@ -37,7 +37,7 @@
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
-  onSettingsOpen: (settingsSection: SettingsSection) => void;
+  onSettingsOpen: (settingsSection?: SettingsSection) => void;
 }
 ```
 - **Shared types** (`src/proto/types.index.ts`)

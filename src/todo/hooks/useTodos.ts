@@ -92,7 +92,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
   }, [categoryId, dbOperations, fetchTodos]);
 
   // Create a new todo
-  const createTodo = useCallback(async (title: string): Promise<void> => {
+  const createTodo = async (title: string): Promise<void> => {
     try {
       const now = new Date().toISOString();
       const newTodo: Omit<TodoDocument, '_id' | '_rev'> = {
@@ -113,10 +113,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to create todo');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   // Update a todo's title or completion status
-  const updateTodo = useCallback(async (
+  const updateTodo = async (
     todo: TodoDocument, 
     updates: { title?: string; completed?: boolean }
   ): Promise<void> => {
@@ -136,10 +136,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to update todo');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   // Delete a todo
-  const deleteTodo = useCallback(async (todo: TodoDocument): Promise<void> => {
+  const deleteTodo = async (todo: TodoDocument): Promise<void> => {
     try {
       await dbOperations.remove(todo);
       message.success('Todo deleted successfully');
@@ -150,10 +150,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to delete todo');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   // Add a todo to a category
-  const addTodoToCategory = useCallback(async (
+  const addTodoToCategory = async (
     todo: TodoDocument, 
     categoryId: string
   ): Promise<void> => {
@@ -178,10 +178,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to add todo to category');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   // Remove a todo from a category
-  const removeTodoFromCategory = useCallback(async (
+  const removeTodoFromCategory = async (
     todo: TodoDocument, 
     categoryId: string
   ): Promise<void> => {
@@ -201,7 +201,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to remove todo from category');
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   return {
     todos,

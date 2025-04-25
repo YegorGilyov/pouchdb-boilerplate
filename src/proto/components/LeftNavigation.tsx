@@ -9,7 +9,7 @@ import type { MenuProps } from 'antd';
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
-  onSettingsOpen: (settingsSection: SettingsSection) => void;
+  onSettingsOpen: (settingsSection?: SettingsSection) => void;
 }
 
 export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigationProps): React.ReactElement {
@@ -87,7 +87,7 @@ export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigati
     {
       key: 'settings',
       label: 'Settings',
-      onClick: () => onSettingsOpen("itemTypes")
+      onClick: () => onSettingsOpen()
     },
     {
       key: 'help',
