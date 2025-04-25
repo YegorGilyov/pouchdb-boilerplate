@@ -3,12 +3,13 @@ import { Select, Space, Typography, Spin, Alert, Empty, ConfigProvider, theme, S
 import { useSearchParams } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, SearchOutlined, InboxOutlined, StarOutlined } from '@ant-design/icons';
 import { useUsers, useSpaces } from '../hooks';
+import { SettingsSection, SETTINGS_SECTIONS } from '../types';
 import type { MenuProps } from 'antd';
 
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
-  onSettingsOpen: (settingsSection: "itemTypes" | "workflows" | "customFields") => void;
+  onSettingsOpen: (settingsSection: SettingsSection) => void;
 }
 
 export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigationProps): React.ReactElement {
@@ -137,33 +138,11 @@ export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigati
     {
       type: 'divider'
     },
-    {
-      key: 'itemTypes',
-      label: 'Item Types',
-      onClick: () => onSettingsOpen("itemTypes")
-    },
-    {
-      key: 'customFields',
-      label: 'Custom Fields',
-      onClick: () => onSettingsOpen("customFields")
-    },
-    {
-      key: 'workflows',
-      label: 'Workflows',
-      onClick: () => onSettingsOpen("workflows")
-    },
-    {
-      key: 'automations',
-      label: 'Automations'
-    },
-    {
-      key: 'requestForms',
-      label: 'Request forms'
-    },
-    {
-      key: 'blueprints',
-      label: 'Blueprints'
-    }
+    ...SETTINGS_SECTIONS.map(section => ({
+      key: section.key,
+      label: section.label,
+      onClick: () => onSettingsOpen(section.key)
+    }))
   ];
 
   if (hasError) {

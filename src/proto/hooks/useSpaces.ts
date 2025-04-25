@@ -60,15 +60,12 @@ export function useSpaces(filter?: SpaceFilter): UseSpacesReturn {
         setLoading(false);
       }
     }
-  }, [filter]);
+  }, [JSON.stringify(filter)]);
 
   // Fetch spaces when filter changes
   useEffect(() => {
     fetchSpaces(false);
-  }, [
-    filter?.availableTo, 
-    filter?.spaceIds ? JSON.stringify(filter.spaceIds) : undefined
-  ]);
+  }, [JSON.stringify(filter)]);
 
   // Subscribe to changes in space documents
   useEffect(() => {
@@ -93,7 +90,7 @@ export function useSpaces(filter?: SpaceFilter): UseSpacesReturn {
     // Clean up subscription on unmount
     return unsubscribe;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter?.availableTo, filter?.spaceIds]);
+  }, [JSON.stringify(filter)]);
 
   return {
     spaces,

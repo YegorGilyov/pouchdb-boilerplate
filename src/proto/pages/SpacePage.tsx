@@ -4,6 +4,7 @@ import { Layout, Spin, Alert } from 'antd';
 import { useProtoDBInit } from '../hooks';
 import { LeftNavigation } from '../components/LeftNavigation';
 import { SpaceHome } from '../components/SpaceHome';
+import { SettingsSection } from '../types';
 
 const { Sider, Content } = Layout;
 
@@ -17,7 +18,7 @@ export function SpacePage(): React.ReactElement {
   const { loading: dbLoading, error: dbError } = useProtoDBInit();
   
   // Handle settings panel opening
-  const handleSettingsOpen = (settingsSection: "itemTypes" | "workflows" | "customFields") => {
+  const handleSettingsOpen = (settingsSection: SettingsSection) => {
     console.log(`Opening settings section: ${settingsSection}`);
     // Implement actual settings panel logic here
   };

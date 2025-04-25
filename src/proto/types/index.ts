@@ -32,4 +32,13 @@ export interface ConfigElementFilter {
   availableIn?: string;
   availableTo?: string;
   canBeReusedBy?: string;
-} 
+}
+
+// Settings section configuration
+export const SETTINGS_SECTIONS = [
+  { key: "itemTypes", label: "Item Types" },
+  { key: "workflows", label: "Workflows" },
+  { key: "customFields", label: "Custom Fields" }
+] as const;
+
+export type SettingsSection = typeof SETTINGS_SECTIONS[number]['key']; 

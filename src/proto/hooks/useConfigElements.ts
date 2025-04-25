@@ -84,13 +84,13 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
         setLoading(false);
       }
     }
-  }, [filter]);
+  }, [JSON.stringify(filter)]);
 
   // Fetch configuration elements when filter changes
   useEffect(() => {
     fetchConfigElements(false); // Not silent on initial load or filter change
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter.type, filter.availableIn, filter.availableTo, filter.canBeReusedBy]);
+  }, [JSON.stringify(filter)]);
 
   // Subscribe to changes in configuration element documents
   useEffect(() => {
@@ -115,7 +115,7 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
     // Clean up subscription on unmount
     return unsubscribe;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter.type, filter.availableIn, filter.availableTo, filter.canBeReusedBy]);
+  }, [JSON.stringify(filter)]);
 
   // Add a configuration element to a space
   const addToSpace = async (configElement: ConfigElementDocument, spaceId: string): Promise<void> => {

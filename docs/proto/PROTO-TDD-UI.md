@@ -37,8 +37,18 @@
 interface LeftNavigationProps {
   userId?: string | null;
   spaceId?: string | null;
-  onSettingsOpen: (settingsSection: "itemTypes" | "workflows" | "customFields") => void;
+  onSettingsOpen: (settingsSection: SettingsSection) => void;
 }
+```
+- **Shared types** (`src/proto/types.index.ts`)
+```ts
+const SETTINGS_SECTIONS = [
+  { key: "itemTypes", label: "Item Types" },
+  { key: "workflows", label: "Workflows" },
+  { key: "customFields", label: "Custom Fields" }
+] as const;
+
+type SettingsSection = typeof SETTINGS_SECTIONS[number]['key'];
 ```
 - **Layout**:
   - Wrike logo at the top left corner and user avatar at the top right corner in the same row.
@@ -57,12 +67,7 @@ interface LeftNavigationProps {
     - When you click on the gear icon, a menu with the following items opens:
       * `General space settings`: non-functional
       * Divider
-      * `Item Types`: calls `onSettingsOpen("itemTypes")` 
-      * `Custom Fields`: calls `onSettingsOpen("customFields")`
-      * `Workflows`: calls `onSettingsOpen("workflows")`
-      * `Automations`: non-functional
-      * `Request forms`: non-functional
-      * `Blueprints`: non-functional
+      * Items from the `SETTINGS_SECTIONS` array, calling `onSettingsOpen`
   - Tools section with a `Tools` header and skeleton placeholder.
   - Projects & folders section with a `Projects and folders` header and skeleton placeholder.
 - **UI**:

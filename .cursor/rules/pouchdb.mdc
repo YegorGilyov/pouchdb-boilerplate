@@ -68,7 +68,7 @@ alwaysApply: false
 - Log errors to console
 - Show user-friendly messages
 - Rethrow errors to allow upstream handling
-- Provide toast message feedback for all operations using Ant Design’s `App.useApp().message` API (see [antd-messages.mdc](mdc:.cursor/rules/antd-messages.mdc)).
+- Provide toast message feedback for all operations using Ant Design’s `App.useApp().message` API (see [antd-messages.mdc](mdc:.cursor/rules/antd-messages.mdc))
 
 ## Loading state management:
 - Indicate loading state only during user-initiated actions that require waiting:
@@ -83,15 +83,11 @@ alwaysApply: false
 - Define return type with TypeScript interface
 
 ## Dependency Management
-- Use proper dependency arrays in hooks, keep those arrays minimal
+- Use JSON.stringify for all complex objects (objects with multiple properties, nested objects, arrays) in hook dependency arrays. This approach ensures:
+  * Consistent detection of content changes across all hooks
+  * Simpler, more maintainable dependency arrays
+  * Proper re-triggering when object properties change
 - Disable exhaustive deps warnings when needed with appropriate comments
-- Use JSON.stringify for array or object dependencies in useEffect to detect content changes:
-  * Apply this pattern when the effect should re-run based on changes to array/object contents
-  * Example: `filter?.someArray ? JSON.stringify(filter.someArray) : undefined`
-  * This ensures the effect re-triggers when array elements change, not just when the reference changes
 
 ## Reference Implementation
 - Use entity-specific hooks from the **todo** slice as a reference implementation: create new hooks the same way
-
-
-
