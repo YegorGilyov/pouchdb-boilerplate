@@ -116,7 +116,7 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
   }, [JSON.stringify(filter), dbOperations, fetchConfigElements]);
 
   // Add a configuration element to a space
-  const addToSpace = useCallback(async (configElement: ConfigElementDocument, spaceId: string): Promise<void> => {
+  const addToSpace = async (configElement: ConfigElementDocument, spaceId: string): Promise<void> => {
     try {
       // Skip if the space is already in usedInSpaceIds
       if (configElement.usedInSpaceIds.includes(spaceId)) {
@@ -142,10 +142,10 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
       message.error('Failed to add to space');
       throw error;
     }
-  }, [db, dbOperations, message]);
+  };
 
   // Remove a configuration element from a space
-  const removeFromSpace = useCallback(async (configElement: ConfigElementDocument, spaceId: string): Promise<void> => {
+  const removeFromSpace = async (configElement: ConfigElementDocument, spaceId: string): Promise<void> => {
     try {
       // Skip if the space is not in usedInSpaceIds
       if (!configElement.usedInSpaceIds.includes(spaceId)) {
@@ -171,10 +171,10 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
       message.error('Failed to remove from space');
       throw error;
     }
-  }, [db, dbOperations, message]);
+  };
 
   // Set the published state of a configuration element
-  const setPublished = useCallback(async (configElement: ConfigElementDocument, published: boolean): Promise<void> => {
+  const setPublished = async (configElement: ConfigElementDocument, published: boolean): Promise<void> => {
     try {
       // Skip if the published state is already set
       if (configElement.isPublished === published) {
@@ -200,10 +200,10 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
       message.error(`Failed to ${published ? 'publish' : 'unpublish'}`);
       throw error;
     }
-  }, [db, dbOperations, message]);
+  };
 
   // Set the active state of a configuration element
-  const setActive = useCallback(async (configElement: ConfigElementDocument, active: boolean): Promise<void> => {
+  const setActive = async (configElement: ConfigElementDocument, active: boolean): Promise<void> => {
     try {
       // Skip if the active state is already set
       if (configElement.isActive === active) {
@@ -227,7 +227,7 @@ export function useConfigElements(filter: ConfigElementFilter): UseConfigElement
       message.error(`Failed to ${active ? 'activate' : 'deactivate'}`);
       throw error;
     }
-  }, [dbOperations, message]);
+  };
 
   return {
     configElements,

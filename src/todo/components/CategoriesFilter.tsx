@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Menu, Button, Modal, Input, Form } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useCategories } from '../hooks/useCategories';
@@ -18,7 +18,7 @@ export function CategoriesFilter({
   const { todos } = useTodos();
 
   // Calculate todo counts for each category
-  const getTodosCount = useCallback((categoryId: string | null) => {
+  const getTodosCount = (categoryId: string | null) => {
     if (categoryId === null) {
       // Count uncategorized todos
       return todos.filter((todo: TodoDocument) => todo.categoryIds.length === 0).length;
@@ -29,7 +29,7 @@ export function CategoriesFilter({
       // Count todos in a specific category
       return todos.filter((todo: TodoDocument) => todo.categoryIds.includes(categoryId)).length;
     }
-  }, [todos]);
+  };
 
   // Modal state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -38,12 +38,12 @@ export function CategoriesFilter({
   const [form] = Form.useForm();
 
   // Create category handlers
-  const showCreateModal = useCallback(() => {
+  const showCreateModal = () => {
     form.resetFields();
     setIsCreateModalOpen(true);
-  }, [form]);
+  };
 
-  const handleCreateCategory = useCallback(async (values: { name: string }) => {
+  const handleCreateCategory = async (values: { name: string }) => {
     try {
       await createCategory(values.name);
       setIsCreateModalOpen(false);
@@ -51,16 +51,16 @@ export function CategoriesFilter({
     } catch (error) {
       // Error handling is done in the hook
     }
-  }, [createCategory, form]);
+  };
 
   // Edit category handlers
-  const showEditModal = useCallback((category: CategoryDocument) => {
+  const showEditModal = (category: CategoryDocument) => {
     setCurrentCategory(category);
     form.setFieldsValue({ name: category.name });
     setIsEditModalOpen(true);
-  }, [form]);
+  };
 
-  const handleUpdateCategory = useCallback(async (values: { name: string }) => {
+  const handleUpdateCategory = async (values: { name: string }) => {
     if (!currentCategory) return;
     
     try {
@@ -71,16 +71,16 @@ export function CategoriesFilter({
     } catch (error) {
       // Error handling is done in the hook
     }
-  }, [currentCategory, updateCategory, form]);
+  };
 
   // Delete category handler
-  const handleDeleteCategory = useCallback(async (category: CategoryDocument) => {
+  const handleDeleteCategory = async (category: CategoryDocument) => {
     try {
       await deleteCategory(category);
     } catch (error) {
       // Error handling is done in the hook
     }
-  }, [deleteCategory]);
+  };
 
   const menuItems = [
     {

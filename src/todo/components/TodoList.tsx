@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { Table, Checkbox, Typography, Tag, Space, Button, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useTodos } from '../hooks/useTodos';
@@ -44,31 +44,31 @@ export function TodoList({ categoryId = 'all' }: TodoListProps): React.ReactElem
     ];
   }, [todos]);
 
-  const handleToggleComplete = useCallback((todo: TodoDocument) => {
+  const handleToggleComplete = (todo: TodoDocument) => {
     updateTodo(todo, { completed: !todo.completed });
-  }, [updateTodo]);
+  };
 
-  const handleUpdateTitle = useCallback((todo: TodoDocument, newTitle: string) => {
+  const handleUpdateTitle = (todo: TodoDocument, newTitle: string) => {
     updateTodo(todo, { title: newTitle });
-  }, [updateTodo]);
+  };
 
-  const handleDeleteTodo = useCallback((todo: TodoDocument) => {
+  const handleDeleteTodo = (todo: TodoDocument) => {
     deleteTodo(todo);
-  }, [deleteTodo]);
+  };
 
-  const handleAddCategory = useCallback((todo: TodoDocument, category: { _id: string }) => {
+  const handleAddCategory = (todo: TodoDocument, category: { _id: string }) => {
     addTodoToCategory(todo, category._id);
-  }, [addTodoToCategory]);
+  };
 
-  const handleRemoveCategory = useCallback((todo: TodoDocument, categoryId: string) => {
+  const handleRemoveCategory = (todo: TodoDocument, categoryId: string) => {
     removeTodoFromCategory(todo, categoryId);
-  }, [removeTodoFromCategory]);
+  };
 
   // Get category name by ID
-  const getCategoryName = useCallback((categoryId: string) => {
+  const getCategoryName = (categoryId: string) => {
     const category = categories.find((c: CategoryDocument) => c._id === categoryId);
     return category ? category.name : 'Unknown';
-  }, [categories]);
+  };
 
   // Table columns configuration
   const columns = [

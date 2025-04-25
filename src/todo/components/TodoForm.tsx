@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { useTodos } from '../hooks/useTodos';
 
@@ -10,7 +10,7 @@ export function TodoForm({ categoryId }: TodoFormProps): React.ReactElement {
   const { createTodo, loading } = useTodos();
   const [form] = Form.useForm();
 
-  const handleSubmit = useCallback(async (values: { title: string }) => {
+  const handleSubmit = async (values: { title: string }) => {
     try {
       // Validate that title is not empty (Ant Design form validation will handle this)
       // Create the todo
@@ -21,7 +21,7 @@ export function TodoForm({ categoryId }: TodoFormProps): React.ReactElement {
     } catch (error) {
       console.error('Failed to create todo:', error);
     }
-  }, [createTodo, form]);
+  };
 
   return (
     <Form
