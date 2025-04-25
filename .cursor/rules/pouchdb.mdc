@@ -87,7 +87,6 @@ alwaysApply: false
   * Consistent detection of content changes across all hooks
   * Simpler, more maintainable dependency arrays
   * Proper re-triggering when object properties change
-- Disable exhaustive deps warnings when needed with appropriate comments
 
 ## Reference Implementation
 - Use entity-specific hooks from the **todo** slice as a reference implementation: create new hooks the same way

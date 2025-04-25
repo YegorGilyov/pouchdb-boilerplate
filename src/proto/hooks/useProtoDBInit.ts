@@ -83,7 +83,7 @@ export function useProtoDBInit(): OperationState {
     };
     
     initializeDatabase();
-  }, [message]);
+  }, [message, dbOperations, db, denormalizeDocument]);
   
   return state;
 } 

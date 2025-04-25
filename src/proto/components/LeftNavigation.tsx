@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Select, Space, Typography, Spin, Alert, Empty, ConfigProvider, theme, Skeleton, Menu, Avatar, Dropdown } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, SearchOutlined, InboxOutlined, StarOutlined } from '@ant-design/icons';
@@ -43,18 +43,18 @@ export function LeftNavigation({ userId, spaceId, onSettingsOpen }: LeftNavigati
   }, [userId, spaceId, spaces, spacesLoading, searchParams, setSearchParams]);
 
   // Handle user selection change
-  const handleUserChange = (selectedUserId: string) => {
+  const handleUserChange = useCallback((selectedUserId: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('userId', selectedUserId);
     setSearchParams(newParams);
-  };
+  }, [searchParams, setSearchParams]);
 
   // Handle space selection change
-  const handleSpaceChange = (selectedSpaceId: string) => {
+  const handleSpaceChange = useCallback((selectedSpaceId: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('spaceId', selectedSpaceId);
     setSearchParams(newParams);
-  };
+  }, [searchParams, setSearchParams]);
 
   // Loading state
   const isLoading = usersLoading || spacesLoading;

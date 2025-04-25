@@ -38,13 +38,12 @@ export function useCategories(): UseCategoriesReturn {
         setLoading(false);
       }
     }
-  }, [setCategories, setLoading, setError, message]);
+  }, [dbOperations, message]);
 
   // Fetch all categories
   useEffect(() => {
     fetchCategories(false); // Not silent on initial load
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchCategories]);
 
   // Subscribe to changes in category documents
   useEffect(() => {
@@ -69,11 +68,10 @@ export function useCategories(): UseCategoriesReturn {
     
     // Clean up subscription on unmount
     return unsubscribe;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dbOperations, fetchCategories]);
 
   // Create a new category
-  const createCategory = async (name: string): Promise<void> => {
+  const createCategory = useCallback(async (name: string): Promise<void> => {
     try {
       // Validate category name
       if (!name.trim()) {
@@ -106,10 +104,10 @@ export function useCategories(): UseCategoriesReturn {
       message.error(error.message || 'Failed to create category');
       throw error;
     }
-  };
+  }, [categories, dbOperations, message]);
 
   // Update a category's name
-  const updateCategory = async (
+  const updateCategory = useCallback(async (
     category: CategoryDocument, 
     newName: string
   ): Promise<void> => {
@@ -143,10 +141,10 @@ export function useCategories(): UseCategoriesReturn {
       message.error(error.message || 'Failed to update category');
       throw error;
     }
-  };
+  }, [categories, dbOperations, message]);
 
   // Delete a category
-  const deleteCategory = async (category: CategoryDocument): Promise<void> => {
+  const deleteCategory = useCallback(async (category: CategoryDocument): Promise<void> => {
     try {
       // Check if any todos use this category
       const associatedTodos = await dbOperations.find<TodoDocument>(
@@ -180,7 +178,7 @@ export function useCategories(): UseCategoriesReturn {
       message.error('Failed to delete category');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   return {
     categories,

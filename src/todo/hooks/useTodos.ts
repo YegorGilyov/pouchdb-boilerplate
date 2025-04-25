@@ -59,13 +59,12 @@ export function useTodos(categoryId?: string): UseTodosReturn {
         setLoading(false);
       }
     }
-  }, [categoryId, setTodos, setLoading, setError, message]);
+  }, [categoryId, dbOperations, message]);
 
   // Fetch todos based on category filter
   useEffect(() => {
     fetchTodos(false); // Not silent on initial load
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId]);
+  }, [categoryId, fetchTodos]);
 
   // Subscribe to changes in todo documents
   useEffect(() => {
@@ -90,11 +89,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
     
     // Clean up subscription on unmount
     return unsubscribe;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId]);
+  }, [categoryId, dbOperations, fetchTodos]);
 
   // Create a new todo
-  const createTodo = async (title: string): Promise<void> => {
+  const createTodo = useCallback(async (title: string): Promise<void> => {
     try {
       const now = new Date().toISOString();
       const newTodo: Omit<TodoDocument, '_id' | '_rev'> = {
@@ -115,10 +113,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to create todo');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   // Update a todo's title or completion status
-  const updateTodo = async (
+  const updateTodo = useCallback(async (
     todo: TodoDocument, 
     updates: { title?: string; completed?: boolean }
   ): Promise<void> => {
@@ -138,10 +136,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to update todo');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   // Delete a todo
-  const deleteTodo = async (todo: TodoDocument): Promise<void> => {
+  const deleteTodo = useCallback(async (todo: TodoDocument): Promise<void> => {
     try {
       await dbOperations.remove(todo);
       message.success('Todo deleted successfully');
@@ -152,10 +150,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to delete todo');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   // Add a todo to a category
-  const addTodoToCategory = async (
+  const addTodoToCategory = useCallback(async (
     todo: TodoDocument, 
     categoryId: string
   ): Promise<void> => {
@@ -180,10 +178,10 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to add todo to category');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   // Remove a todo from a category
-  const removeTodoFromCategory = async (
+  const removeTodoFromCategory = useCallback(async (
     todo: TodoDocument, 
     categoryId: string
   ): Promise<void> => {
@@ -203,7 +201,7 @@ export function useTodos(categoryId?: string): UseTodosReturn {
       message.error('Failed to remove todo from category');
       throw error;
     }
-  };
+  }, [dbOperations, message]);
 
   return {
     todos,

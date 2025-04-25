@@ -39,13 +39,12 @@ export function useUsers(): UseUsersReturn {
         setLoading(false);
       }
     }
-  }, []);
+  }, [dbOperations]);
 
   // Fetch users on mount
   useEffect(() => {
     fetchUsers(false); // Not silent on initial load
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchUsers]);
 
   // Subscribe to changes in user documents
   useEffect(() => {
@@ -69,8 +68,7 @@ export function useUsers(): UseUsersReturn {
     
     // Clean up subscription on unmount
     return unsubscribe;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dbOperations, fetchUsers]);
 
   return {
     users,

@@ -59,7 +59,7 @@ export function useTodoDBInit(): OperationState {
     };
     
     createTodoIndexes();
-  }, [message]);
+  }, [message, db]);
   
   return state;
 }

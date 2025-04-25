@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Layout, Spin, Alert } from 'antd';
 import { useProtoDBInit } from '../hooks';
@@ -18,10 +18,10 @@ export function SpacePage(): React.ReactElement {
   const { loading: dbLoading, error: dbError } = useProtoDBInit();
   
   // Handle settings panel opening
-  const handleSettingsOpen = (settingsSection: SettingsSection) => {
+  const handleSettingsOpen = useCallback((settingsSection: SettingsSection) => {
     console.log(`Opening settings section: ${settingsSection}`);
     // Implement actual settings panel logic here
-  };
+  }, []);
   
   if (dbLoading) {
     return (
