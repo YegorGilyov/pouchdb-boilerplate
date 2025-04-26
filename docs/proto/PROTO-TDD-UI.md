@@ -45,7 +45,10 @@ interface LeftNavigationProps {
 const SETTINGS_SECTIONS = [
   { key: "itemTypes", label: "Item Types" },
   { key: "workflows", label: "Workflows" },
-  { key: "customFields", label: "Custom Fields" }
+  { key: "customFields", label: "Custom Fields" },
+  { key: "automation", label: "Automation", default: true },
+  { key: "requestForms", label: "Request Forms" },
+  { key: "blueprints", label: "Blueprints" }
 ] as const;
 
 type SettingsSection = typeof SETTINGS_SECTIONS[number]['key'];
@@ -94,10 +97,28 @@ type SettingsSection = typeof SETTINGS_SECTIONS[number]['key'];
 interface SpaceHomeProps {
   userId: string | null;
   spaceId: string | null;
+  onSettingsOpen: (settingsSection?: SettingsSection) => void;
 }
 ```
 - **Layout**:
-  * Space name as a header.
+  - Header
+    - At the left: 
+      - Space name
+      - Tag `You manage this space` inline with the space name, in case the current user in one of the admins 
+    - At the right:
+      - Configuration button with dropdown menu:
+        * Default items from from `SETTINGS_SECTIONS` as the primary action
+        * Other items from from `SETTINGS_SECTIONS` in the dropdown
+        * When selected, `onSettingsOpen` is called
+      - Share button: button with icon, `Share` text, non-functional
+      - Help button: button with icon, no text, non-functional
+      - Plus button: primary button with icon, no text, non-functional 
+  - Horizontal divider between the header and the rest of the component
+  - Fake dashboard consisting of 4 cards (two in the first row and two in the second row), filled with skeletons
+- **UI**
+  - Use `Dropdown.Button` for the configuration dropdown
+  - Use skeletons without anitmation
+  - Make the cards in the fake dashboard occupy all vertical space
 
 ## Router
 

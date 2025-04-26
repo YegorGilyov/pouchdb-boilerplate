@@ -35,10 +35,19 @@ export interface ConfigElementFilter {
 }
 
 // Settings section configuration
-export const SETTINGS_SECTIONS = [
+type SettingsSectionItem = {
+  key: "itemTypes" | "workflows" | "customFields" | "automation" | "requestForms" | "blueprints";
+  label: string;
+  default?: boolean;
+};
+
+export type SettingsSection = SettingsSectionItem["key"];
+
+export const SETTINGS_SECTIONS: readonly SettingsSectionItem[] = [
   { key: "itemTypes", label: "Item Types" },
   { key: "workflows", label: "Workflows" },
-  { key: "customFields", label: "Custom Fields" }
-] as const;
-
-export type SettingsSection = typeof SETTINGS_SECTIONS[number]['key']; 
+  { key: "customFields", label: "Custom Fields" },
+  { key: "automation", label: "Automation", default: true },
+  { key: "requestForms", label: "Request Forms" },
+  { key: "blueprints", label: "Blueprints" }
+]; 

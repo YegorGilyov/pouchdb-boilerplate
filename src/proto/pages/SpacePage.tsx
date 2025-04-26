@@ -52,7 +52,7 @@ export function SpacePage(): React.ReactElement {
         <LeftNavigation userId={userId} spaceId={spaceId} onSettingsOpen={handleSettingsOpen} />
       </Sider>
       <Content style={{ marginLeft: 256, background: '#fff' }}>
-        <SpaceHome userId={userId} spaceId={spaceId} />
+        <SpaceHome userId={userId} spaceId={spaceId} onSettingsOpen={handleSettingsOpen} />
       </Content>
     </Layout>
   );

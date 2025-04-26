@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { App } from 'antd';
 import { usePouchDB } from '../../shared/contexts/PouchDBProvider';
-import { OperationState, SpaceDocument, ConfigElementDocument, AppDocument } from '../../shared/types';
+import { OperationState, SpaceDocument, ConfigElementDocument } from '../../shared/types';
 import { dbIndexes } from '../constants/indexes';
 import { denormalizeDocument } from '../utils/denormalizeDocument';
 
