@@ -13,8 +13,8 @@
 
 - **Purpose**: Main page.
 - **URL parameters**:
-  * `userId`: current user Id.
-  * `spaceId`: current space Id.
+  * `userId` (optional): current user Id.
+  * `spaceId` (optional): current space Id.
 - **Hooks Used**:
   * `useProtoDBInit`: to initialize the database.
 - **Layout**:
@@ -40,18 +40,24 @@ interface LeftNavigationProps {
   onSettingsOpen: (settingsSection?: SettingsSection) => void;
 }
 ```
-- **Shared types** (`src/proto/types.index.ts`)
+- **Shared types** (`src/proto/types/index.ts`)
 ```ts
-const SETTINGS_SECTIONS = [
+export type SettingsSection = "itemTypes" | "workflows" | "customFields" | "automation" | "requestForms" | "blueprints";
+
+type SettingsSectionItem = {
+  key: SettingsSection;
+  label: string;
+  default?: boolean;
+};
+
+export const SETTINGS_SECTIONS: readonly SettingsSectionItem[] = [
   { key: "itemTypes", label: "Item Types" },
   { key: "workflows", label: "Workflows" },
   { key: "customFields", label: "Custom Fields" },
   { key: "automation", label: "Automation", default: true },
   { key: "requestForms", label: "Request Forms" },
   { key: "blueprints", label: "Blueprints" }
-] as const;
-
-type SettingsSection = typeof SETTINGS_SECTIONS[number]['key'];
+]; 
 ```
 - **Layout**:
   - Wrike logo at the top left corner and user avatar at the top right corner in the same row.
@@ -107,8 +113,8 @@ interface SpaceHomeProps {
       - Tag `You manage this space` inline with the space name, in case the current user in one of the admins 
     - At the right:
       - Configuration button with dropdown menu:
-        * Default items from from `SETTINGS_SECTIONS` as the primary action
-        * Other items from from `SETTINGS_SECTIONS` in the dropdown
+        * Default items from from `CONFIG_SECTIONS` as the primary action
+        * Other items from from `CONFIG_SECTIONS` in the dropdown
         * When selected, `onSettingsOpen` is called
       - Share button: button with icon, `Share` text, non-functional
       - Help button: button with icon, no text, non-functional
@@ -116,15 +122,41 @@ interface SpaceHomeProps {
   - Horizontal divider between the header and the rest of the component
   - Fake dashboard consisting of 4 cards (two in the first row and two in the second row), filled with skeletons
 - **UI**
-  - Use `Dropdown.Button` for the configuration dropdown
-  - Use skeletons without anitmation
+  - Use `Dropdown.Button` for the configuration dropdown, with `DownOutlined` icon. Dropdown opens on click.
+  - Use skeletons without animation
   - Make the cards in the fake dashboard occupy all vertical space
+
+### SettingsPanel
+
+- **Purpose**: modal dialog for managing all settings and configuration.
+- **Hooks Used**:
+  - `useSpaces`:
+  - `useConfigElements`:
+- **Props**:
+  * `userId`: current user Id.
+  * `spaceId`: current space Id.
+  * `section`: selected configuration section.
+  * `open`:
+  * `onSpaceSelect`:
+  * `onSectionSelect`:
+  * `onClose`:
+```tsx
+interface SettingsPanelProps {
+  userId: string | null;
+  spaceId: string | null;
+  section: SettingsSection | null;
+  open: boolean;
+  onSpaceSelect: (spaceId: string) => void;
+  onSectionSelect: (section: SettingsSection) => void;
+  onClose: () => void;
+}
+```
+- **Layout**:
+
 
 ## Router
 
-- Implement separate routing for this slice and include it in `src/app/routes/Routes.tsx` using lazy loading.
-- Make SpacePage accessible at "/proto/space" with two query parameters:
-  * `spaceId`: specifies the current space.
-  * `userId`: specifies the current user.
-- The route should support both required and optional parameters (e.g., `/proto/space?spaceId=123&userId=456` or `/proto/space?userId=456`).
-- Ensure the root route for the prototype slice automatically routes to the space page.
+- Implement separate routing for this slice in `src/proto/routes/ProtoRoutes.tsx` and include it in the main application router (`src/app/routes/Routes.tsx`) using lazy loading.
+- Set up the following routes:
+  * `/proto/space`: Main space page component
+  * `/proto`: Should redirect to `/proto/space`
